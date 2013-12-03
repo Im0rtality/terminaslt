@@ -31,6 +31,17 @@ class FeatureContext extends MinkContext
         // Initialize your context here
     }
 
+    /**
+     * Checks, that page contains specified text.
+     *
+     * @Then /^(?:|I )should see derp "(?P<text>(?:[^"]|\\")*)"$/
+     */
+    public function assertPageContainsText($text)
+    {
+        print_r($this->getSession()->getCurrentUrl());
+        $this->assertSession()->pageTextContains($this->fixStepArgument($text));
+    }
+
 //
 // Place your definition and hook methods here:
 //
