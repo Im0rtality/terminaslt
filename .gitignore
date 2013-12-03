@@ -1,6 +1,5 @@
 vendor/
 .vagrant/
 .idea/
-build/
 
 phpmyadmin
