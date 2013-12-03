@@ -28,4 +28,5 @@ before_script:
 script:
 #    - ./vendor/bin/phpcs --standard=PSR2 src/
 #    - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
+    - phpunit
     - ./vendor/bin/behat
