@@ -13,7 +13,7 @@ if ($isTerm === true) : ?>
 		<small><?=$obj['name']?></small>
 	</blockquote>
 	<?php endforeach ?>
-	<form class="form-horizontal" id="form-add-comment"  style="margin-top:50px" method='POST' action="<?=WEB_ROOT?>comment/submit/">
+	<form class="form-horizontal" id="form-add-comment"  style="margin-top:50px" method='POST' action="<?=WEB_ROOT?>comment/add/">
 		<input type="hidden" name="id" value="<?=$data['id']?>">
 		<textarea class="span6" name="comment" placeholder="Komentaras"></textarea>
 		<div class="pull-right" style="margin-top:10px">
