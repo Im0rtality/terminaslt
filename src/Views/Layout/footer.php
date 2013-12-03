@@ -1,3 +1,4 @@
+<?php use Utils\Auth; ?>
         <div class="container">
           <p>Designed and crafted from scratch by <a href="http://www.im0rtality.com">Laurynas Veržukauskas</a></p>
           <p>Empowered by <a href="jquery.com">jQuery</a>, <a href="twitter.github.com/bootstrap/">Bootstrap</a>, <a href="http://raphaeljs.com/">Raphaël</a> and <a href="http://glyphicons.com/">Glyphicons Free</a></p>

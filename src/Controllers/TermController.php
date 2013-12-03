@@ -1,4 +1,6 @@
 <?php
+use Utils\Auth;
+
 class TermController {
 	public function submit($query){
 		global $database;

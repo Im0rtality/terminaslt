@@ -1,4 +1,6 @@
 <?php
+use Utils\Auth;
+
 class CommentController{
 	public function add(){
 		global $database;

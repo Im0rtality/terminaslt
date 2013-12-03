@@ -1,5 +1,7 @@
+<?php use Utils\Auth; ?>
 <div class="box span6 offset3">
-<?php if ($isTerm === true) : ?>
+<?php
+if ($isTerm === true) : ?>
 	<h1 class="deco"><?=$data['term']?></h1>
 	<div class="term-meaning">
 		<p><?=$data['meaning']?></p>

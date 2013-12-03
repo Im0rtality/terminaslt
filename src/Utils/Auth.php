@@ -1,4 +1,7 @@
 <?php
+
+namespace Utils;
+
 class Auth {
 	const FLAG_ADMIN = 1;
 

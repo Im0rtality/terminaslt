@@ -1,4 +1,7 @@
 <?php
+
+namespace Utils;
+
 class Database{
 	private $link;
 

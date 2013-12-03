@@ -1,4 +1,6 @@
 <?php
+use Utils\Auth;
+
 class SubmissionController{
 	public function delete($id) {
 		global $database;

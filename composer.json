@@ -7,5 +7,10 @@
             "name": "Laurynas Veržukauskas",
             "email": "laurynas.verzukauskas@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    }
 }

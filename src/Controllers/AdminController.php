@@ -1,4 +1,6 @@
 <?php
+use Utils\Auth;
+
 class AdminController {
 	public function __construct(){
 		if (!Auth::hasFlag(Auth::FLAG_ADMIN)) {

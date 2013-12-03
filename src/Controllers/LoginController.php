@@ -1,4 +1,6 @@
 <?php
+use Utils\Auth;
+
 class LoginController{
 	public function index(){
 		if (Auth::isLoginFieldsSet() === true) {
