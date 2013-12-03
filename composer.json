@@ -1,0 +1,11 @@
+{
+    "name": "Im0rtality/terminaslt",
+    "description": "University project",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Laurynas Veržukauskas",
+            "email": "laurynas.verzukauskas@gmail.com"
+        }
+    ]
+}
