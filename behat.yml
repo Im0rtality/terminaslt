@@ -1,5 +1,5 @@
 default:
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: /web
+            base_url: http://terminas.dev/
             goutte: ~
