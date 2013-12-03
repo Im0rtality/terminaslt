@@ -29,6 +29,7 @@ Scenario: login admin
 
 Scenario: fill in comment
   Given I am on the homepage
+  Then print last response
   When I follow "algoritmas"
   Then I should be on "/term/view/algoritmas/"
   Then print last response

@@ -33,3 +33,6 @@ script:
 #    - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
     - phpunit
     - ./vendor/bin/behat
+    - curl http://terminas.dev/
+    - curl http://terminas.dev/login/
+    - curl http://terminas.dev/term/view/algoritmas/
