@@ -44,5 +44,6 @@ Scenario: test
   Given I am on the homepage
   When I follow "algoritmas"
   Then I should be on "/term/view/algoritmas/"
+  Then print last response
   And should see "Baigtinė seka aiškiai suformuluotų nurodymų"
   Given I have done something with "derp"
