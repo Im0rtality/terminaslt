@@ -76,6 +76,7 @@ $viewVars = array();
 $controller = isset( $_GET['controller'] ) ? $_GET['controller'] : "";
 $action = isset( $_GET['action'] ) ? $_GET['action'] : "";
 define( 'WEB_ROOT', rtrim( $_SERVER['PHP_SELF'], 'index.php' ) );
+define( 'ASSETS_ROOT', WEB_ROOT . 'web/assets/' );
 
 $sCtrl = empty( $controller ) ? "Home" : ucfirst( $controller );
 $sClass = sprintf( "%sController", $sCtrl );
