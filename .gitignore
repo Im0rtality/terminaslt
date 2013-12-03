@@ -2,4 +2,5 @@ vendor/
 .vagrant/
 .idea/
 
+database.config.php
 phpmyadmin
