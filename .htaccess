@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteCond %{QUERY_STRING} !pt
+	RewriteRule ([^/]+)/(.*) index.php?controller=$1&action=$2 [L]
+	
+</IfModule>
+	#RewriteRule ([^/]+)/(.*) http://stud.if.ktu.lt/~lauver/terminas.lt/index.php?controller=$1&action=$2 [L]
