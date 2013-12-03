@@ -1,8 +1,8 @@
 <?php
 class ListController {
 	public function index($query = '', $terms = null){
-		global $DB;
-		$data = $DB->select('terms', array('term'), "term LIKE '%$query%'");
+		global $database;
+		$data = $database->select('terms', array('term'), "term LIKE '%$query%'");
 
 		$key = 'term';
 		$val = array();

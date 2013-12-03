@@ -1,5 +1,5 @@
 <?php
-class DB{
+class Database{
 	private $link;
 
 	public $log = array();

@@ -21,9 +21,9 @@ function map_value($value, $min, $max, $new_min, $new_max) {
 
 class HomeController {
 	public function index(){
-		global $DB;
-		$terms = $DB->select('terms', array('term', 'hits'), array(), 'hits DESC', CLOUD_SIZE);
-		$lim = $DB->select('terms', array('MAX(hits) as max', 'MIN(hits) as min'), array(), 'hits DESC', CLOUD_SIZE);
+		global $database;
+		$terms = $database->select('terms', array('term', 'hits'), array(), 'hits DESC', CLOUD_SIZE);
+		$lim = $database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min'), array(), 'hits DESC', CLOUD_SIZE);
 		$lim = $lim[0];
 
 		if (count($terms) < CLOUD_SIZE) {

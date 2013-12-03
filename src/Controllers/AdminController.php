@@ -7,12 +7,12 @@ class AdminController {
 	}
 
 	public function index(){
-		global $DB;
-		$comments = $DB->rawQuery("SELECT comments.id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC LIMIT 5");
-		$submissions = $DB->rawQuery("SELECT submissions.id, submissions.term, submissions.meaning, submissions.comment FROM submissions ORDER BY id DESC LIMIT 5");
+		global $database;
+		$comments = $database->rawQuery("SELECT comments.id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC LIMIT 5");
+		$submissions = $database->rawQuery("SELECT submissions.id, submissions.term, submissions.meaning, submissions.comment FROM submissions ORDER BY id DESC LIMIT 5");
 
-		$terms = $DB->select('terms', array('term', 'hits'), array(), 'hits DESC', 7);
-		$lim = $DB->select('terms', array('MAX(hits) as max', 'MIN(hits) as min', 'SUM(hits) as sum'));
+		$terms = $database->select('terms', array('term', 'hits'), array(), 'hits DESC', 7);
+		$lim = $database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min', 'SUM(hits) as sum'));
 		$lim = $lim[0];
 
 		setViewVar('comments', $comments);
@@ -29,15 +29,15 @@ class AdminController {
 	}
 
 	public function terms(){
-		global $DB;
-		$data = $DB->select('terms', array('id', 'term', 'meaning'), array(), 'term ASC');
+		global $database;
+		$data = $database->select('terms', array('id', 'term', 'meaning'), array(), 'term ASC');
 
 		setViewVar('terms', $data);
 	}
 
 	public function editterm($id){
-		global $DB;
-		$data = $DB->select("terms", array("id", "term", "meaning"), array('id' => (int) $id));
+		global $database;
+		$data = $database->select("terms", array("id", "term", "meaning"), array('id' => (int) $id));
 		if (($data !== null) && (isset($data[0]))){
 			$data = $data[0];
 		} else {
@@ -47,13 +47,13 @@ class AdminController {
 	}
 
 	public function saveterm(){
-		global $DB;
+		global $database;
 		debug($_POST);
-		$post = $DB->escape($_POST);
+		$post = $database->escape($_POST);
 		if (empty($_POST['id'])) {
-			$DB->insert('terms', array('term', 'meaning'), array($post['term'], $post['meaning']));
+			$database->insert('terms', array('term', 'meaning'), array($post['term'], $post['meaning']));
 		} else {
-			$DB->rawQuery("UPDATE terms SET term='{$post['term']}', meaning='{$post['meaning']}' WHERE id={$post['id']}");
+			$database->rawQuery("UPDATE terms SET term='{$post['term']}', meaning='{$post['meaning']}' WHERE id={$post['id']}");
 		}
 		redirect("admin/terms/");
 
@@ -61,36 +61,36 @@ class AdminController {
 	}
 
 	public function users(){
-		global $DB;
-		$data = $DB->select('users', array('id', 'name', 'email', '(flags && 1 != 0) as isAdmin'));
+		global $database;
+		$data = $database->select('users', array('id', 'name', 'email', '(flags && 1 != 0) as isAdmin'));
 
 		setViewVar('users', $data);
 	}
 
 	public function comments(){
-		global $DB;
-		$data = $DB->rawQuery("SELECT comments.id, comments.user_id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC");
+		global $database;
+		$data = $database->rawQuery("SELECT comments.id, comments.user_id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC");
 
 		setViewVar('comments', $data);
 	}
 
 	public function submissions(){
-		global $DB;
-		$data = $DB->select("submissions", array("id", "ip", "term", "meaning", "comment"));
+		global $database;
+		$data = $database->select("submissions", array("id", "ip", "term", "meaning", "comment"));
 
 		setViewVar('submissions', $data);
 	}
 
 	public function editsubmission($id){
-		global $DB;
-		$data = $DB->select("submissions", array("id", "ip", "term", "meaning", "comment"), array('id' => (int) $id));
+		global $database;
+		$data = $database->select("submissions", array("id", "ip", "term", "meaning", "comment"), array('id' => (int) $id));
 
 		setViewVar('submission', $data[0]);
 	}
 
 	public function edituser($query){
-		global $DB;
-		$data = $DB->select('users', array('id', 'name', 'email', 'flags'), array('id' => $query));
+		global $database;
+		$data = $database->select('users', array('id', 'name', 'email', 'flags'), array('id' => $query));
 		if (isset($data[0])) {
 			$data = $data[0];
 		} else {
@@ -102,7 +102,7 @@ class AdminController {
 	}
 
 	public function saveuser(){
-		global $DB;
+		global $database;
 		debug($_POST);
 		$flags = 0;
 		if (isset($_POST['flags'])) {
@@ -112,14 +112,14 @@ class AdminController {
 				}
 			}
 		}
-		$post = $DB->escape($_POST);
+		$post = $database->escape($_POST);
 		if (empty($_POST['id'])) {
-			$DB->insert('users', array('name', 'email', 'password', 'flags'), array($post['name'], $post['email'], "SHA1({$post['password']})", $flags));
+			$database->insert('users', array('name', 'email', 'password', 'flags'), array($post['name'], $post['email'], "SHA1({$post['password']})", $flags));
 		} else {
 			if (empty($_POST['password'])) {
-				$DB->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', flags={$flags} WHERE id={$post['id']}");
+				$database->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', flags={$flags} WHERE id={$post['id']}");
 			} else {
-				$DB->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', password=SHA1('{$post['password']}'), flags={$flags} WHERE id={$post['id']}");
+				$database->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', password=SHA1('{$post['password']}'), flags={$flags} WHERE id={$post['id']}");
 			}
 		}
 		header("Location: ".WEB_ROOT."admin/users/");

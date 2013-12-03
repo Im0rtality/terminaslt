@@ -35,8 +35,8 @@ class Auth {
 	}
 
 	private static function internalLogin( $username, $password ) {
-		global $DB;
-		$result = $DB->select( 'users', array( '*' ), array( 'name' => $username, 'password' => $password ), null, 1 );
+		global $database;
+		$result = $database->select( 'users', array( '*' ), array( 'name' => $username, 'password' => $password ), null, 1 );
 		if ( isset( $result[0] ) ) {
 			Auth::$user = $result[0];
 		}

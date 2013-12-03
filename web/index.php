@@ -65,9 +65,9 @@ function url($controller, $action = "", $params = "") {
 	}
 }
 
-include 'class.DB.php';
-include 'class.Auth.php';
-$DB = new DB( 'localhost', 'terminas', 'terminas', 'terminaslt' );
+include 'Database.php';
+include 'Auth.php';
+$database = new Database( 'localhost', 'terminas', 'terminas', 'terminaslt' );
 $useModRewrite = true;
 
 session_start();
