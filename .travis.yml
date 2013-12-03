@@ -16,14 +16,13 @@ before_script:
     - mysql -e 'create database terminaslt;'
     - mv web/database.config.travis web/database.config.php
 
-    - sudo apt-get install apache2
+    - sudo apt-get update > /dev/null
+    - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
     - sudo a2enmod actions
     - sudo a2enmod rewrite
     - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
-    - sudo sed -i -e "/DocumentRoot/i\ServerName knpu_qa.l" /etc/apache2/sites-available/default
-    - echo "127.0.0.1 knpu_qa.l" | sudo tee -a /etc/hosts
-
     - sudo /etc/init.d/apache2 restart
+
 script:
     - ./vendor/bin/phpcs --standard=PSR2 src/
     - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
