@@ -34,12 +34,12 @@ class FeatureContext extends MinkContext
 //
 // Place your definition and hook methods here:
 //
-//    /**
-//     * @Given /^I have done something with "([^"]*)"$/
-//     */
-//    public function iHaveDoneSomethingWith($argument)
-//    {
-//        doSomethingWith($argument);
-//    }
+    /**
+     * @Given /^I have done something with "([^"]*)"$/
+     */
+    public function iHaveDoneSomethingWith($argument)
+    {
+        print_r($this->getSession()->getDriver()->find("textarea[name='comment']")->getText());
+    }
 //
 }
