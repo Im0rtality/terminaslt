@@ -32,6 +32,7 @@ Scenario: fill in comment
   Then print last response
   When I follow "algoritmas"
   Then I should be on "/term/view/algoritmas/"
+  When I go to "index.php?controller=term&action=view/algoritmas/"
   Then print last response
   And should see "Baigtinė seka aiškiai suformuluotų nurodymų"
 #  When I fill in "comment" with "Testing comment system"
