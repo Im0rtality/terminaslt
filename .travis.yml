@@ -14,7 +14,7 @@ before_script:
     - composer install --no-interaction --prefer-source
     # db setup
     - mysql -e 'create database terminaslt;'
-    - mysql -utravis -p terminaslt < fixtures/dump.sql
+    - mysql -utravis terminaslt < fixtures/dump.sql
     - mv web/database.config.travis web/database.config.php
 
     - sudo apt-get update > /dev/null
