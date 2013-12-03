@@ -19,11 +19,11 @@ before_script:
     - sudo apt-get install apache2
     - sudo a2enmod actions
     - sudo a2enmod rewrite
-    - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
-    - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
-    - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`/web,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
-    - sudo service apache2 restart
+    - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
+    - sudo sed -i -e "/DocumentRoot/i\ServerName knpu_qa.l" /etc/apache2/sites-available/default
+    - echo "127.0.0.1 knpu_qa.l" | sudo tee -a /etc/hosts
 
+    - sudo /etc/init.d/apache2 restart
 script:
     - ./vendor/bin/phpcs --standard=PSR2 src/
     - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
