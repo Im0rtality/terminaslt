@@ -9,11 +9,9 @@ services:
 before_script:
   # install behat, mink etc
   - composer install --no-interaction --prefer-source # Have to prefer source or hit github rate limit
-
   # db setup
   - mysql -e 'create database terminaslt;'
   - mv web/database.config.travis web/database.config.php
-
    #apache stuff
    - sudo apt-get install apache2 libapache2-mod-fastcgi
    # enable php-fpm
@@ -30,3 +28,4 @@ script:
     - ./vendor/bin/phpcs --standard=PSR2 src/
     - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
     - ./vendor/bin/behat
+    - curl http://localhost/
