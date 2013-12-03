@@ -33,4 +33,4 @@ script:
 #    - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
     - phpunit
     - ./vendor/bin/behat
-    - /usr/local/apache/bin/apachectl -l
+    - ls -la /etc/apache2/mods-enabled/
