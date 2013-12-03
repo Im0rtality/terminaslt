@@ -14,13 +14,13 @@ Scenario: login
   Then I should be on "/"
   And I should see "Logout (test)"
 
-  Scenario: fill in comment
-    Given I am on the homepage
-    When I follow "algoritmas"
-    Then I should be on "/term/view/algoritmas/"
-    And should see "Baigtinė seka aiškiai suformuluotų nurodymų"
-    When I fill in "comment" with "Testing comment system"
-    And press "Siųsti"
-    And I go to "/term/view/algoritmas/"
-    Then I should see "Baigtinė seka aiškiai suformuluotų nurodymų"
+#  Scenario: fill in comment
+#    Given I am on the homepage
+#    When I follow "algoritmas"
+#    Then I should be on "/term/view/algoritmas/"
+#    And should see "Baigtinė seka aiškiai suformuluotų nurodymų"
+#    When I fill in "comment" with "Testing comment system"
+#    And press "Siųsti"
+#    And I go to "/term/view/algoritmas/"
+#    Then I should see "Baigtinė seka aiškiai suformuluotų nurodymų"
 
