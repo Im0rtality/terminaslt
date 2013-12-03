@@ -2,8 +2,5 @@ vendor/
 .vagrant/
 .idea/
 build/
-files/
-puppet/
-shell/
 
 phpmyadmin
