@@ -68,7 +68,6 @@ function url($controller, $action = "", $params = "") {
 include 'class.DB.php';
 include 'class.Auth.php';
 $DB = new DB( 'localhost', 'terminas', 'terminas', 'terminaslt' );
-//$DB = new DB( 'localhost', 'lauver', 'keYoo7oraequaosa', 'lauver' );
 $useModRewrite = true;
 
 session_start();
@@ -83,7 +82,7 @@ define( 'ASSETS_ROOT', WEB_ROOT . 'assets/' );
 
 $sCtrl = empty( $controller ) ? "Home" : ucfirst( $controller );
 $sClass = sprintf( "%sController", $sCtrl );
-$sFile = sprintf( "../Controllers/%s.php", $sClass );
+$sFile = sprintf( "../src/Controllers/%s.php", $sClass );
 if ( file_exists( $sFile ) ) {
 	require_once $sFile;
 	$ctrl = new $sClass();
@@ -110,13 +109,13 @@ if ( file_exists( $sFile ) ) {
 			break;
 		}
 		if ( !isset( $viewVars['dontRenderView'] ) ) {
-			$sView = sprintf( "../Views/%s/%s.php", $sCtrl, $method );
+			$sView = sprintf( "../src/Views/%s/%s.php", $sCtrl, $method );
 			if ( file_exists( $sView ) ) {
 				$title = 'Terminas.lt';
 				if ( isset( $viewVars['dontRenderDefault'] ) ) {
 					renderView();
 				} else {
-					require_once "../Views/Layout/default.php";
+					require_once "../src/Views/Layout/default.php";
 				}
 			} else {
 	//			redirect();
