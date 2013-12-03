@@ -65,8 +65,8 @@ function url($controller, $action = "", $params = "") {
 	}
 }
 
-include 'Database.php';
-include 'Auth.php';
+include '../src/Utils/Database.php';
+include '../src/Utils/Auth.php';
 $database = new Database( 'localhost', 'terminas', 'terminas', 'terminaslt' );
 $useModRewrite = true;
 
