@@ -13,7 +13,6 @@ before_script:
     # db setup
     - mysql -e 'create database terminaslt;'
     - mysql -utravis terminaslt < fixtures/dump.sql
-    - mv web/database.config.travis web/database.config.php
 
     - sudo apt-get update > /dev/null
     - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
@@ -21,6 +20,10 @@ before_script:
     - sudo a2enmod rewrite
     - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
     - sudo /etc/init.d/apache2 restart
+
+    #load travis-specific configs
+    - mv web/database.config.travis web/database.config.php
+    - mv behat.yml.travis behat.yml
 
 script:
     - ./vendor/bin/phpcs --standard=PSR2 src/
