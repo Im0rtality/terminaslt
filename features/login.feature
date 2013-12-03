@@ -32,6 +32,7 @@ Scenario: fill in comment
   When I follow "algoritmas"
   Then I should be on "/term/view/algoritmas/"
   And should see "Baigtinė seka aiškiai suformuluotų nurodymų"
+  Then print last response
 #  When I fill in "comment" with "Testing comment system"
 #  And press "Siųsti"
 #  And I go to "/term/view/algoritmas/"
