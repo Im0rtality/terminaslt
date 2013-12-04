@@ -114,7 +114,6 @@ if ( file_exists( $sFile ) ) {
 		}
 		if ( !isset( $viewVars['dontRenderView'] ) ) {
 			$sView = sprintf( "../src/Views/%s/%s.php", $sCtrl, $method );
-            print_r($sView);
 			if ( file_exists( $sView ) ) {
 				$title = 'Terminas.lt';
 				if ( isset( $viewVars['dontRenderDefault'] ) ) {
