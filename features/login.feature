@@ -30,6 +30,7 @@ Scenario: fill in comment
 #  When I go to "index.php?controller=term&action=view/algoritmas/"
 #  Then print last response
   And should see "Baigtinė seka aiškiai suformuluotų nurodymų"
+  Then print last response
   When I fill in "comment" with "Testing comment system"
   And press "Siųsti"
   And I go to the homepage
@@ -40,6 +41,4 @@ Scenario: fill in comment
 Scenario: test
   Given I am on the homepage
   When I follow "algoritmas"
-  Then print last response
   And should see "Baigtinė seka aiškiai suformuluotų nurodymų"
-  Given I have done something with "derp"
