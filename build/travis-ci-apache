@@ -1,7 +1,8 @@
 <VirtualHost *:80>
   # [...]
 
-  DocumentRoot %TRAVIS_BUILD_DIR%
+  ServerName terminas.dev
+  DocumentRoot %TRAVIS_BUILD_DIR%/web
 
   <Directory "%TRAVIS_BUILD_DIR%/web">
     Options FollowSymLinks MultiViews ExecCGI
