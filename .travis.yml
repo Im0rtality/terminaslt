@@ -44,3 +44,5 @@ script:
 #    - ls -la /etc/apache2/mods-enabled/
 #    - ls -la /etc/apache2/mods-available/
     - cat /etc/apache2/mods-enabled/rewrite.load
+    - cat /etc/apache2/mods-enabled/fastcgi.load
+    - cat /etc/apache2/mods-enabled/fastcgi.conf
