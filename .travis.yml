@@ -24,6 +24,7 @@ before_script:
     - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/default
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
     - sudo service apache2 restart
+    - echo "127.0.0.1 terminas.dev" | sudo tee -a /etc/hosts
 
     #load travis-specific configs
     - mv web/database.config.travis web/database.config.php
