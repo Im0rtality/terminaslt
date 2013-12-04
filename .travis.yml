@@ -41,4 +41,5 @@ script:
     - ps -ef | grep apache
     - /usr/sbin/apache2 -V | grep SERVER_CONFIG_FILE
     - cat /etc/apache2/apache2.conf
-    - cat /etc/apache2/httpd.conf
+    - ls -la /etc/apache2/mods-enabled/
+    - ls -la /etc/apache2/mods-available/
