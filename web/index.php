@@ -72,7 +72,7 @@ function url($controller, $action = "", $params = "") {
 include '../vendor/autoload.php';
 include 'database.config.php';
 $database = new Database( 'localhost', DB_USER, DB_PASSWORD, DB_NAME );
-$useModRewrite = false;
+$useModRewrite = true;
 
 session_start();
 Auth::trySessionLogin();
