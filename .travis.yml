@@ -35,5 +35,7 @@ script:
 #    - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
     - phpunit
     - ./vendor/bin/behat
+    - curl http://127.0.0.1/
+    - curl http://terminas.dev/
     - curl http://terminas.dev/term/view/algoritmas/
     - cat /etc/apache2/sites-available/default
