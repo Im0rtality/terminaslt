@@ -1,4 +1,7 @@
 <?php
+
+namespace Terminas\Controller;
+
 class ListController
 {
     public function index($query = '', $terms = null)

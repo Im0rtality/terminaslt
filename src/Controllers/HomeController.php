@@ -1,4 +1,7 @@
 <?php
+
+namespace Terminas\Controller;
+
 define('CLOUD_SIZE', 50);
 define('CLOUD_ROW', 5);
 

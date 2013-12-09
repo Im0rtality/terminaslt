@@ -1,4 +1,7 @@
 <?php
+
+namespace Terminas\Controller;
+
 use Utils\Auth;
 
 class LoginController

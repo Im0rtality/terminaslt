@@ -1,4 +1,7 @@
 <?php
+
+namespace Terminas\Controller;
+
 use Utils\Auth;
 
 class LogoutController
@@ -9,4 +12,3 @@ class LogoutController
         redirect("");
     }
 }
-
