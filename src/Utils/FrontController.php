@@ -19,6 +19,8 @@ class FrontController
     protected $htmlHelper;
     /** @var  mixed */
     protected $templateVars = array();
+    /** @var  string */
+    protected $action;
 
     public function url($controller, $action = "", $params = "")
     {
@@ -59,27 +61,10 @@ class FrontController
 
     public function handleRoute($route)
     {
-        list($action, $sCtrl, $sClass, $ctrl, $method) = $this->loadController($route);
+        list($sCtrl, $sClass, $ctrl, $method) = $this->loadController($route);
 
         if (isCallable($ctrl, $method)) {
-            // call_user_func(array($ctrl, $method), $action);
-            switch (count($action)) {
-                case 0:
-                    $this->templateVars = $ctrl->$method();
-                    break;
-                case 1:
-                    $this->templateVars = $ctrl->$method($action[0]);
-                    break;
-                case 2:
-                    $this->templateVars = $ctrl->$method($action[0], $action[1]);
-                    break;
-                case 3:
-                    $this->templateVars = $ctrl->$method($action[0], $action[1], $action[2]);
-                    break;
-                default:
-                    die("Too many parameters for {$sClass}->{$method}()");
-                    break;
-            }
+            $this->templateVars = call_user_func_array(array($ctrl, $method), $this->action);
 
             if ($this->templateVars === null) {
                 $this->templateVars = array();
@@ -93,7 +78,6 @@ class FrontController
         } else {
             die("Action '{$method}' not found in controller '{$sClass}'");
         }
-
     }
 
     public function renderView()
@@ -128,17 +112,17 @@ class FrontController
     public function loadController($route)
     {
         $this->controller = isset($route['controller']) ? $route['controller'] : "";
-        $action           = isset($route['action']) ? $route['action'] : "";
+        $this->action     = isset($route['action']) ? $route['action'] : "";
 
         $sCtrl  = empty($this->controller) ? "Home" : ucfirst($this->controller);
         $sClass = sprintf('Terminas\Controllers\%sController', $sCtrl);
 
-        $ctrl   = new $sClass($this->database);
-        $action = explode('/', $action);
-        $method = array_shift($action);
-        $method = empty($method) ? 'index' : strtolower($method);
+        $ctrl         = new $sClass($this->database);
+        $this->action = explode('/', $this->action);
+        $method       = array_shift($this->action);
+        $method       = empty($method) ? 'index' : strtolower($method);
 
-        return array($action, $sCtrl, $sClass, $ctrl, $method);
+        return array($sCtrl, $sClass, $ctrl, $method);
     }
 
     /**
