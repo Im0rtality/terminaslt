@@ -12,11 +12,11 @@ class Database
     {
         $this->link = mysql_connect($host, $user, $pass);
         if (!$this->link) {
-            die('Could not connect: ' . mysql_error());
+            throw new \Exception('Could not connect: ' . mysql_error());
         }
         $dbSelected = mysql_select_db($database, $this->link);
         if (!$dbSelected) {
-            die ('Can\'t use foo : ' . mysql_error());
+            throw new \Exception('Can\'t use database: ' . mysql_error());
         }
         mysql_set_charset('utf8');
     }
@@ -29,7 +29,7 @@ class Database
         if (!$result) {
             $message = 'Invalid query: ' . mysql_error() . "\n";
             $message .= 'Whole query: ' . $query;
-            die($message);
+            throw new \Exception($message);
         }
 
         $data = null;
@@ -56,29 +56,9 @@ class Database
 
     public function select($table, $fields, $where = array(), $order = null, $limit = null)
     {
-        $fields = sprintf('%s', (is_array($fields) ? implode(',', $fields) : $fields));
-
-        if (is_array($where)) {
-            $swhere = '';
-            foreach ($where as $key => $value) {
-                $value = $this->escape($value);
-                if (is_string($value)) {
-                    $value = '"' . $value . '"';
-                }
-                $swhere .= sprintf(' AND (%s = %s)', $key, $value);
-            }
-            $swhere = empty($where) ? '' : ' WHERE ' . ltrim($swhere, ' AND ');
-        } else {
-            $swhere = ' WHERE ' . $where;
-        }
-        $query = sprintf(
-            'SELECT %s FROM `%s` %s%s%s',
-            $fields,
-            $table,
-            $swhere,
-            ($order !== null) ? ' ORDER BY ' . $order : "",
-            ($limit !== null) ? ' LIMIT ' . $limit : ""
-        );
+        $fields = $this->buildFields($fields);
+        $sWhere = $this->buildWhere($where);
+        $query = $this->buildQuery($table, $fields, $order, $limit, $sWhere);
 
         return $this->rawQuery($query);
     }
@@ -135,5 +115,62 @@ class Database
     public function __destruct()
     {
         mysql_close($this->link);
+    }
+
+    /**
+     * @param $table
+     * @param $fields
+     * @param $order
+     * @param $limit
+     * @param $swhere
+     *
+     * @return string
+     */
+    protected function buildQuery($table, $fields, $order, $limit, $swhere)
+    {
+        $query = sprintf(
+            'SELECT %s FROM `%s` %s%s%s',
+            $fields,
+            $table,
+            $swhere,
+            ($order !== null) ? ' ORDER BY ' . $order : "",
+            ($limit !== null) ? ' LIMIT ' . $limit : ""
+        );
+        return $query;
+    }
+
+    /**
+     * @param $fields
+     *
+     * @return string
+     */
+    protected function buildFields($fields)
+    {
+        $fields = sprintf('%s', (is_array($fields) ? implode(',', $fields) : $fields));
+        return $fields;
+    }
+
+    /**
+     * @param $where
+     *
+     * @return string
+     */
+    protected function buildWhere($where)
+    {
+        if (is_array($where)) {
+            $swhere = '';
+            foreach ($where as $key => $value) {
+                $value = $this->escape($value);
+                if (is_string($value)) {
+                    $value = '"' . $value . '"';
+                }
+                $swhere .= sprintf(' AND (%s = %s)', $key, $value);
+            }
+            $swhere = empty($where) ? '' : ' WHERE ' . ltrim($swhere, ' AND ');
+            return $swhere;
+        } else {
+            $swhere = ' WHERE ' . $where;
+            return $swhere;
+        }
     }
 }

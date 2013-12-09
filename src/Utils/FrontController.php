@@ -23,6 +23,10 @@ class FrontController
     protected $action;
     /** @var  Request */
     protected $request;
+    /** @var  string */
+    protected $controllerName;
+    /** @var  string */
+    protected $method;
 
     public function url($controller, $action = "", $params = "")
     {
@@ -64,10 +68,12 @@ class FrontController
 
     public function handleRoute($route)
     {
-        list($sCtrl, $sClass, $ctrl, $method) = $this->loadController($route);
+        $ctrl = $this->loadController($route);
+        $this->buildAction($route);
+        $this->buildMethod();
 
-        if (isCallable($ctrl, $method)) {
-            $this->templateVars = call_user_func_array(array($ctrl, $method), $this->action);
+        if (isCallable($ctrl, $this->method)) {
+            $this->templateVars = call_user_func_array(array($ctrl, $this->method), $this->action);
 
             if ($this->templateVars === null) {
                 $this->templateVars = array();
@@ -75,11 +81,11 @@ class FrontController
 
             /** @var $ctrl AbstractController */
             if ($ctrl->isRenderView()) {
-                $this->template = sprintf('%s/src/Views/%s/%s.php', ROOT, $sCtrl, $method);
+                $this->template = sprintf('%s/src/Views/%s/%s.php', ROOT, $this->controllerName, $this->method);
                 $this->renderTemplate($ctrl);
             }
         } else {
-            die("Action '{$method}' not found in controller '{$sClass}'");
+            throw new \Exception("Action '{$this->method}' not found in controller '" . get_class($ctrl) . "'");
         }
     }
 
@@ -112,26 +118,22 @@ class FrontController
     /**
      * @param $route
      *
-     * @return array
+     * @return AbstractController
      */
     public function loadController($route)
     {
-        $this->controller = isset($route['controller']) ? $route['controller'] : "";
-        $this->action     = isset($route['action']) ? $route['action'] : "";
+        $this->controller     = isset($route['controller']) ? $route['controller'] : "";
+        $this->controllerName = empty($this->controller) ? "Home" : ucfirst($this->controller);
+        $sClass               = sprintf('Terminas\Controllers\%sController', $this->controllerName);
+        $ctrl                 = new $sClass($this->database, $this->request);
 
-        $sCtrl  = empty($this->controller) ? "Home" : ucfirst($this->controller);
-        $sClass = sprintf('Terminas\Controllers\%sController', $sCtrl);
-
-        $ctrl         = new $sClass($this->database, $this->request);
-        $this->action = explode('/', $this->action);
-        $method       = array_shift($this->action);
-        $method       = empty($method) ? 'index' : strtolower($method);
-
-        return array($sCtrl, $sClass, $ctrl, $method);
+        return $ctrl;
     }
 
     /**
      * @param $ctrl AbstractController
+     *
+     * @throws \Exception
      */
     protected function renderTemplate($ctrl)
     {
@@ -143,7 +145,22 @@ class FrontController
                 $this->renderView();
             }
         } else {
-            die("View not found in '{$this->template}'");
+            throw new \Exception("View not found in '{$this->template}'");
         }
+    }
+
+    protected function buildMethod()
+    {
+        $this->method = array_shift($this->action);
+        $this->method = empty($this->method) ? 'index' : strtolower($this->method);
+    }
+
+    /**
+     * @param $route
+     */
+    protected function buildAction($route)
+    {
+        $this->action = isset($route['action']) ? $route['action'] : "";
+        $this->action = explode('/', $this->action);
     }
 }

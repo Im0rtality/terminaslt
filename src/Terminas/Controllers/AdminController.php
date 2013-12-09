@@ -9,7 +9,7 @@ class AdminController extends AbstractController
 {
     public function __construct()
     {
-        parent::__construct(func_get_args());
+        call_user_func_array(array(self, '__construct'), func_get_args());
         if (!Auth::hasFlag(Auth::FLAG_ADMIN)) {
             redirect("login/");
         }
@@ -73,9 +73,8 @@ class AdminController extends AbstractController
 
     public function saveterm()
     {
-        debug($_POST);
-        $post = $this->database->escape($_POST);
-        if (empty($_POST['id'])) {
+        $post = $this->database->escape($this->request->post);
+        if (empty($this->request->post['id'])) {
             $this->database->insert('terms', array('term', 'meaning'), array($post['term'], $post['meaning']));
         } else {
             $this->database->rawQuery(
@@ -148,24 +147,23 @@ class AdminController extends AbstractController
 
     public function saveuser()
     {
-        debug($_POST);
         $flags = 0;
-        if (isset($_POST['flags'])) {
-            foreach ($_POST['flags'] as $key => $value) {
+        if (isset($this->request->post['flags'])) {
+            foreach ($this->request->post['flags'] as $key => $value) {
                 if ($value === 'on') {
                     $flags += (int)pow(2, $key + 0);
                 }
             }
         }
-        $post = $this->database->escape($_POST);
-        if (empty($_POST['id'])) {
+        $post = $this->database->escape($this->request->post);
+        if (empty($this->request->post['id'])) {
             $this->database->insert(
                 'users',
                 array('name', 'email', 'password', 'flags'),
                 array($post['name'], $post['email'], "SHA1({$post['password']})", $flags)
             );
         } else {
-            if (empty($_POST['password'])) {
+            if (empty($this->request->post['password'])) {
                 $this->database->rawQuery(
                     "UPDATE users SET name='{$post['name']}', email='{$post['email']}', flags={$flags} " .
                     "WHERE id={$post['id']}"
