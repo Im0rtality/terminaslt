@@ -59,8 +59,12 @@ function redirect($url)
 }
 
 $request = new Request();
-$front   = new FrontController(true, $request);
-$front->setHtmlHelper(new HtmlHelper());
+
+$helper = new HtmlHelper();
+$helper->setRoot(WEBSITE_ROOT);
+
+$front = new FrontController(true, $request);
+$front->setHtmlHelper($helper);
 $front->initDatabase('database.config.php');
 session_start();
 Auth::trySessionLogin();
