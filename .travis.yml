@@ -34,5 +34,5 @@ script:
     - ./vendor/bin/phpcs --standard=PSR2 --ignore=src/Views src/
     - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
     - ./vendor/bin/phpunit
-    - ./vendor/bin/behat
+    - ./vendor/bin/behat -f progress
     - ./vendor/bin/phploc src
