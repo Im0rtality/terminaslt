@@ -1,4 +1,5 @@
 <?php
+include '../vendor/autoload.php';
 
 use Utils\Auth;
 use Utils\Database;
@@ -76,7 +77,6 @@ function url($controller, $action = "", $params = "")
     }
 }
 
-include '../vendor/autoload.php';
 include 'database.config.php';
 $database      = new Database('localhost', DB_USER, DB_PASSWORD, DB_NAME);
 $useModRewrite = true;
@@ -92,49 +92,45 @@ define('WEB_ROOT', rtrim($_SERVER['PHP_SELF'], 'index.php'));
 define('ASSETS_ROOT', WEB_ROOT . 'assets/');
 
 $sCtrl  = empty($controller) ? "Home" : ucfirst($controller);
-$sClass = sprintf("%sController", $sCtrl);
-$sFile  = sprintf("../src/Controllers/%s.php", $sClass);
-if (file_exists($sFile)) {
-    require_once $sFile;
-    $ctrl   = new $sClass();
-    $action = explode('/', $action);
-    $method = array_shift($action);
-    $method = empty($method) ? 'index' : strtolower($method);
+$sClass = sprintf('Terminas\Controllers\%sController', $sCtrl);
 
-    if (isCallable($ctrl, $method)) {
-        switch (count($action)) {
-            case 0:
-                $ctrl->$method();
-                break;
-            case 1:
-                $ctrl->$method($action[0]);
-                break;
-            case 2:
-                $ctrl->$method($action[0], $action[1]);
-                break;
-            case 3:
-                $ctrl->$method($action[0], $action[1], $action[2]);
-                break;
-            default:
-                die("Too many parameters for {$sClass}->{$method}()");
-                break;
-        }
-        if (!isset($viewVars['dontRenderView'])) {
-            $sView = sprintf("../src/Views/%s/%s.php", $sCtrl, $method);
-            if (file_exists($sView)) {
-                $title = 'Terminas.lt';
-                if (isset($viewVars['dontRenderDefault'])) {
-                    renderView();
-                } else {
-                    require_once "../src/Views/Layout/default.php";
-                }
+$ctrl   = new $sClass();
+$action = explode('/', $action);
+$method = array_shift($action);
+$method = empty($method) ? 'index' : strtolower($method);
+
+if (isCallable($ctrl, $method)) {
+    // call_user_func(array($ctrl, $method), $action);
+    switch (count($action)) {
+        case 0:
+            $ctrl->$method();
+            break;
+        case 1:
+            $ctrl->$method($action[0]);
+            break;
+        case 2:
+            $ctrl->$method($action[0], $action[1]);
+            break;
+        case 3:
+            $ctrl->$method($action[0], $action[1], $action[2]);
+            break;
+        default:
+            die("Too many parameters for {$sClass}->{$method}()");
+            break;
+    }
+    if (!isset($viewVars['dontRenderView'])) {
+        $sView = sprintf("../src/Views/%s/%s.php", $sCtrl, $method);
+        if (file_exists($sView)) {
+            $title = 'Terminas.lt';
+            if (isset($viewVars['dontRenderDefault'])) {
+                renderView();
             } else {
-                die("View for {$sClass}->{$method}() not found in '{$sView}'");
+                require_once "../src/Views/Layout/default.php";
             }
+        } else {
+            die("View for {$sClass}->{$method}() not found in '{$sView}'");
         }
-    } else {
-        die("Action '{$method}' not found in controller '{$sClass}'");
     }
 } else {
-    die("Controller '{$sClass}' not found in file '{$sFile}'");
+    die("Action '{$method}' not found in controller '{$sClass}'");
 }

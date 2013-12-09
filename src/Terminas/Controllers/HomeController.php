@@ -1,6 +1,6 @@
 <?php
 
-namespace Terminas\Controller;
+namespace Terminas\Controllers;
 
 define('CLOUD_SIZE', 50);
 define('CLOUD_ROW', 5);

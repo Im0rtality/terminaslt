@@ -1,6 +1,6 @@
 <?php
 
-namespace Terminas\Controller;
+namespace Terminas\Controllers;
 
 class ListController
 {
