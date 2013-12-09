@@ -4,6 +4,7 @@ include '../vendor/autoload.php';
 use Utils\Auth;
 use Utils\FrontController;
 use Utils\HtmlHelper;
+use Utils\Request;
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -57,7 +58,8 @@ function redirect($url)
     exit;
 }
 
-$front = new FrontController(true);
+$request = new Request();
+$front   = new FrontController(true, $request);
 $front->setHtmlHelper(new HtmlHelper());
 $front->initDatabase('database.config.php');
 session_start();

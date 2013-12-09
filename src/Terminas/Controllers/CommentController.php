@@ -10,11 +10,18 @@ class CommentController extends AbstractController
     public function add()
     {
         if (Auth::isLoggedIn()) {
-            if (trim($_REQUEST['comment']) === '') {
+            if (trim($this->request->post['comment']) === '') {
                 echo 'Error: comment is empty';
             } else {
-                $this->database->insert('comments', array('user_id', 'term_id', 'content'), array(Auth::user('id'),
-                    $_REQUEST['id'], htmlentities($_REQUEST['comment'])));
+                $this->database->insert(
+                    'comments',
+                    array('user_id', 'term_id', 'content'),
+                    array(
+                        Auth::user('id'),
+                        $this->request->post['id'],
+                        htmlentities($this->request->post['comment'])
+                    )
+                );
                 echo 'OK';
             }
         } else {

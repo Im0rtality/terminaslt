@@ -9,17 +9,16 @@ class TermController extends AbstractController
 {
     public function submit()
     {
-        // debug($_POST);
-        foreach ($_POST as &$val) {
+        foreach ($this->request->post as &$val) {
             if (is_string($val)) {
                 $val = htmlentities($val);
             }
         }
-        if (isset($_POST['term']) && isset($_POST['meaning'])) {
+        if (isset($this->request->post['term']) && isset($this->request->post['meaning'])) {
             $this->database->insert(
                 'submissions',
                 array('ip', 'term', 'meaning', 'comment'),
-                array_merge(array($_SERVER['REMOTE_ADDR']), $_POST)
+                array_merge(array($_SERVER['REMOTE_ADDR']), $this->request->post->dump())
             );
         }
         $this->renderView = false;

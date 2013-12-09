@@ -21,15 +21,18 @@ class FrontController
     protected $templateVars = array();
     /** @var  string */
     protected $action;
+    /** @var  Request */
+    protected $request;
 
     public function url($controller, $action = "", $params = "")
     {
         return $this->htmlHelper->url($controller, $action, $params);
     }
 
-    public function __construct($modRewrite)
+    public function __construct($modRewrite, $request)
     {
         $this->modRewrite = $modRewrite;
+        $this->request    = $request;
     }
 
     /**
@@ -119,7 +122,7 @@ class FrontController
         $sCtrl  = empty($this->controller) ? "Home" : ucfirst($this->controller);
         $sClass = sprintf('Terminas\Controllers\%sController', $sCtrl);
 
-        $ctrl         = new $sClass($this->database);
+        $ctrl         = new $sClass($this->database, $this->request);
         $this->action = explode('/', $this->action);
         $method       = array_shift($this->action);
         $method       = empty($method) ? 'index' : strtolower($method);

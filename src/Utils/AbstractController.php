@@ -6,13 +6,20 @@ class AbstractController
 {
     /** @var  Database */
     protected $database;
+    /** @var  Request */
+    protected $request;
 
     protected $renderDefault = true;
     protected $renderView = true;
 
-    public function __construct($database)
+    /**
+     * @param $database Database
+     * @param $request  Request
+     */
+    public function __construct(Database $database, Request $request)
     {
         $this->database = $database;
+        $this->request  = $request;
     }
 
     /**
@@ -22,6 +29,7 @@ class AbstractController
     {
         return $this->renderDefault;
     }
+
     /**
      * @return boolean
      */
