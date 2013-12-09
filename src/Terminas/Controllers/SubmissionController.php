@@ -2,20 +2,19 @@
 
 namespace Terminas\Controllers;
 
+use Utils\AbstractController;
 use Utils\Auth;
 
-class SubmissionController
+class SubmissionController extends AbstractController
 {
     public function delete($id)
     {
-        global $database;
         if (Auth::hasFlag(Auth::FLAG_ADMIN)) {
-            $database->rawQuery("DELETE FROM submissions WHERE id=" . ($id + 0));
+            $this->database->rawQuery("DELETE FROM submissions WHERE id=" . ($id + 0));
             echo "OK";
         } else {
             echo 'Error: you dont have rights to perform specified action';
         }
-        setViewVar('dontRenderView', true);
+        $this->renderView = false;
     }
 }
-

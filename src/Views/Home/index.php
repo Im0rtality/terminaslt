@@ -6,7 +6,7 @@
 					<?php foreach ($termCloud as $termRow): ?>
                         <?php foreach ($termRow as $term): ?>
                             <span style="font-size:<?= $term['scale'] ?>%">
-						<a href="<?= url('term', 'view', $term['term']) ?>"><?= $term['term'] ?></a>
+						<a href="<?= $this->url('term', 'view', $term['term']) ?>"><?= $term['term'] ?></a>
 					</span>
                         <?php endforeach ?>
 				<br/>

@@ -2,9 +2,10 @@
 
 namespace Terminas\Controllers;
 
+use Utils\AbstractController;
 use Utils\Auth;
 
-class LogoutController
+class LogoutController extends AbstractController
 {
     public function index()
     {

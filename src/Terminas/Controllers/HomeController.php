@@ -2,6 +2,8 @@
 
 namespace Terminas\Controllers;
 
+use Utils\AbstractController;
+
 define('CLOUD_SIZE', 50);
 define('CLOUD_ROW', 5);
 
@@ -27,17 +29,19 @@ function map_value($value, $min, $max, $new_min, $new_max)
     return (int)(($value - $min) / ($max - $min) * ($new_max - $new_min) + $new_min);
 }
 
-class HomeController
+class HomeController extends AbstractController
 {
     public function index()
     {
-        global $database;
-        $terms = $database->select('terms', array('term', 'hits'), array(), 'hits DESC', CLOUD_SIZE);
-        $lim   = $database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min'), array(), 'hits DESC', CLOUD_SIZE);
+        $terms = $this->database->select('terms', array('term', 'hits'), array(), 'hits DESC', CLOUD_SIZE);
+        $lim   = $this->database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min'), array(), 'hits DESC', CLOUD_SIZE);
         $lim   = $lim[0];
 
         if (count($terms) < CLOUD_SIZE) {
-            $terms = array_merge($terms, array_fill(0, CLOUD_SIZE - count($terms), array('term' => '    ', 'hits' => $lim['min'] - 1)));
+            $terms = array_merge(
+                $terms,
+                array_fill(0, CLOUD_SIZE - count($terms), array('term' => '    ', 'hits' => $lim['min'] - 1))
+            );
         }
 
         array_walk($terms, function (&$item) use ($lim) {

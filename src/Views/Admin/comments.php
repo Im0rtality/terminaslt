@@ -15,7 +15,7 @@
                 <tr>
                     <td><?php echo $obj['content'] ?></td>
                     <td>
-                        <a href="<?= url('admin', 'edituser', $obj['user_id']) ?>"><?php echo $obj['name'] ?></a>
+                        <a href="<?= $this->url('admin', 'edituser', $obj['user_id']) ?>"><?php echo $obj['name'] ?></a>
                     </td>
                     <td><?php echo $obj['term'] ?></td>
                     <td>

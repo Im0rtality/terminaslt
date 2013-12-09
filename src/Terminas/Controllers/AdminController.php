@@ -2,12 +2,14 @@
 
 namespace Terminas\Controllers;
 
+use Utils\AbstractController;
 use Utils\Auth;
 
-class AdminController
+class AdminController extends AbstractController
 {
     public function __construct()
     {
+        parent::__construct(func_get_args());
         if (!Auth::hasFlag(Auth::FLAG_ADMIN)) {
             redirect("login/");
         }
@@ -15,12 +17,11 @@ class AdminController
 
     public function index()
     {
-        global $database;
-        $comments    = $database->rawQuery("SELECT comments.id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC LIMIT 5");
-        $submissions = $database->rawQuery("SELECT submissions.id, submissions.term, submissions.meaning, submissions.comment FROM submissions ORDER BY id DESC LIMIT 5");
+        $comments    = $this->database->rawQuery("SELECT comments.id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC LIMIT 5");
+        $submissions = $this->database->rawQuery("SELECT submissions.id, submissions.term, submissions.meaning, submissions.comment FROM submissions ORDER BY id DESC LIMIT 5");
 
-        $terms = $database->select('terms', array('term', 'hits'), array(), 'hits DESC', 7);
-        $lim   = $database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min', 'SUM(hits) as sum'));
+        $terms = $this->database->select('terms', array('term', 'hits'), array(), 'hits DESC', 7);
+        $lim   = $this->database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min', 'SUM(hits) as sum'));
         $lim   = $lim[0];
 
         setViewVar('comments', $comments);
@@ -38,16 +39,14 @@ class AdminController
 
     public function terms()
     {
-        global $database;
-        $data = $database->select('terms', array('id', 'term', 'meaning'), array(), 'term ASC');
+        $data = $this->database->select('terms', array('id', 'term', 'meaning'), array(), 'term ASC');
 
         setViewVar('terms', $data);
     }
 
     public function editterm($id)
     {
-        global $database;
-        $data = $database->select("terms", array("id", "term", "meaning"), array('id' => (int)$id));
+        $data = $this->database->select("terms", array("id", "term", "meaning"), array('id' => (int)$id));
         if (($data !== null) && (isset($data[0]))) {
             $data = $data[0];
         } else {
@@ -58,55 +57,49 @@ class AdminController
 
     public function saveterm()
     {
-        global $database;
         debug($_POST);
-        $post = $database->escape($_POST);
+        $post = $this->database->escape($_POST);
         if (empty($_POST['id'])) {
-            $database->insert('terms', array('term', 'meaning'), array($post['term'], $post['meaning']));
+            $this->database->insert('terms', array('term', 'meaning'), array($post['term'], $post['meaning']));
         } else {
-            $database->rawQuery("UPDATE terms SET term='{$post['term']}', meaning='{$post['meaning']}' WHERE id={$post['id']}");
+            $this->database->rawQuery("UPDATE terms SET term='{$post['term']}', meaning='{$post['meaning']}' WHERE id={$post['id']}");
         }
         redirect("admin/terms/");
 
-        setViewVar('dontRenderView', true);
+        $this->renderView = false;
     }
 
     public function users()
     {
-        global $database;
-        $data = $database->select('users', array('id', 'name', 'email', '(flags && 1 != 0) as isAdmin'));
+        $data = $this->database->select('users', array('id', 'name', 'email', '(flags && 1 != 0) as isAdmin'));
 
         setViewVar('users', $data);
     }
 
     public function comments()
     {
-        global $database;
-        $data = $database->rawQuery("SELECT comments.id, comments.user_id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC");
+        $data = $this->database->rawQuery("SELECT comments.id, comments.user_id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC");
 
         setViewVar('comments', $data);
     }
 
     public function submissions()
     {
-        global $database;
-        $data = $database->select("submissions", array("id", "ip", "term", "meaning", "comment"));
+        $data = $this->database->select("submissions", array("id", "ip", "term", "meaning", "comment"));
 
         setViewVar('submissions', $data);
     }
 
     public function editsubmission($id)
     {
-        global $database;
-        $data = $database->select("submissions", array("id", "ip", "term", "meaning", "comment"), array('id' => (int)$id));
+        $data = $this->database->select("submissions", array("id", "ip", "term", "meaning", "comment"), array('id' => (int)$id));
 
         setViewVar('submission', $data[0]);
     }
 
     public function edituser($query)
     {
-        global $database;
-        $data = $database->select('users', array('id', 'name', 'email', 'flags'), array('id' => $query));
+        $data = $this->database->select('users', array('id', 'name', 'email', 'flags'), array('id' => $query));
         if (isset($data[0])) {
             $data = $data[0];
         } else {
@@ -119,7 +112,6 @@ class AdminController
 
     public function saveuser()
     {
-        global $database;
         debug($_POST);
         $flags = 0;
         if (isset($_POST['flags'])) {
@@ -129,18 +121,18 @@ class AdminController
                 }
             }
         }
-        $post = $database->escape($_POST);
+        $post = $this->database->escape($_POST);
         if (empty($_POST['id'])) {
-            $database->insert('users', array('name', 'email', 'password', 'flags'), array($post['name'], $post['email'], "SHA1({$post['password']})", $flags));
+            $this->database->insert('users', array('name', 'email', 'password', 'flags'), array($post['name'], $post['email'], "SHA1({$post['password']})", $flags));
         } else {
             if (empty($_POST['password'])) {
-                $database->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', flags={$flags} WHERE id={$post['id']}");
+                $this->database->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', flags={$flags} WHERE id={$post['id']}");
             } else {
-                $database->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', password=SHA1('{$post['password']}'), flags={$flags} WHERE id={$post['id']}");
+                $this->database->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', password=SHA1('{$post['password']}'), flags={$flags} WHERE id={$post['id']}");
             }
         }
         header("Location: " . WEB_ROOT . "admin/users/");
 
-        setViewVar('dontRenderView', true);
+        $this->renderView = false;
     }
 }

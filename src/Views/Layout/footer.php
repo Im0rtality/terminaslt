@@ -8,15 +8,15 @@
         <li><a href="<?= WEB_ROOT ?>">Home</a></li>
         <li class="muted">•</li>
         <?php if (Auth::isLoggedIn()) : ?>
-            <li><a href="<?= url('logout') ?>">Logout</a>
+            <li><a href="<?= $this->url('logout') ?>">Logout</a>
                 <small class="muted">(<span id="user-name"><?= Auth::user('name') ?></span>)</small>
             </li>
             <?php if (Auth::hasFlag(Auth::FLAG_ADMIN)) : ?>
                 <li class="muted">•</li>
-                <li><a href="<?= url('admin') ?>">Admin</a></li>
+                <li><a href="<?= $this->url('admin') ?>">Admin</a></li>
             <?php endif; ?>
         <?php else: ?>
-            <li><a href="<?= url('login') ?>">Login</a></li>
+            <li><a href="<?= $this->url('login') ?>">Login</a></li>
         <?php endif; ?>
     </ul>
 </div>

@@ -2,9 +2,10 @@
 
 namespace Terminas\Controllers;
 
+use Utils\AbstractController;
 use Utils\Auth;
 
-class LoginController
+class LoginController extends AbstractController
 {
     public function index()
     {
@@ -19,4 +20,3 @@ class LoginController
         }
     }
 }
-

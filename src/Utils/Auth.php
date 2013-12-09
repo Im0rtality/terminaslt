@@ -7,6 +7,7 @@ class Auth
     const FLAG_ADMIN = 1;
 
     private static $user = null;
+    private static $database = null;
 
     public static function isLoginFieldsSet()
     {
@@ -47,8 +48,8 @@ class Auth
 
     private static function internalLogin($username, $password)
     {
-        global $database;
-        $result = $database->select('users', array('*'), array('name' => $username, 'password' => $password), null, 1);
+        $result = self::$database->select('users', array('*'), array('name' => $username, 'password' => $password),
+            null, 1);
         if (isset($result[0])) {
             Auth::$user = $result[0];
         }
@@ -77,6 +78,12 @@ class Auth
     {
         return Auth::isLoggedIn() ? Auth::$user[$key] : null;
     }
-}
 
-?>
+    /**
+     * @param null $database
+     */
+    public static function setDatabase($database)
+    {
+        self::$database = $database;
+    }
+}

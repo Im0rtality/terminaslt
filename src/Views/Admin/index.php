@@ -9,7 +9,7 @@
                     <thead>
                     <tr>
                         <th>
-                            <a href="<?= url('admin', 'comments') ?>">Komentarai</a>
+                            <a href="<?= $this->url('admin', 'comments') ?>">Komentarai</a>
                         </th>
                     </tr>
                     </thead>
@@ -26,7 +26,7 @@
                     <thead>
                     <tr>
                         <th>
-                            <a href="<?= url('admin', 'submissions') ?>">Pasiūlymai</a>
+                            <a href="<?= $this->url('admin', 'submissions') ?>">Pasiūlymai</a>
                         </th>
                         <th>&nbsp;</th>
                     </tr>
