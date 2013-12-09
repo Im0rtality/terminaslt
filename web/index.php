@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 define('WEB_ROOT', __DIR__);
 define('ROOT', dirname(WEB_ROOT));
-define('ASSETS_ROOT', 'assets/');
+define('ASSETS_ROOT', '/assets/');
 
 function debug($var)
 {
@@ -50,15 +50,9 @@ function isCallable($class_name, $method_name, $static = false)
     return false;
 }
 
-function setViewVar($var, $value)
-{
-    global $viewVars;
-    $viewVars[$var] = $value;
-}
-
 function redirect($url)
 {
-    header("Location: " . WEB_ROOT . $url);
+    header("Location: " . '/' . $url);
     exit;
 }
 
