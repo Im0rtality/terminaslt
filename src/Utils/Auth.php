@@ -31,9 +31,9 @@ class Auth
 
     public static function doLogin()
     {
-        if (Auth::internalLogin($_REQUEST['name'], sha1($_REQUEST['pass']))) {
-            $_SESSION['name'] = Auth::$user['name'];
-            $_SESSION['pass'] = Auth::$user['password'];
+        if (self::internalLogin($_REQUEST['name'], sha1($_REQUEST['pass']))) {
+            $_SESSION['name'] = self::$user['name'];
+            $_SESSION['pass'] = self::$user['password'];
 
             return true;
         } else {
@@ -43,7 +43,7 @@ class Auth
 
     public static function sessionLogin()
     {
-        return Auth::internalLogin($_SESSION['name'], $_SESSION['pass']);
+        return self::internalLogin($_SESSION['name'], $_SESSION['pass']);
     }
 
     private static function internalLogin($username, $password)
@@ -52,18 +52,20 @@ class Auth
             'users',
             array('*'),
             array('name' => $username, 'password' => $password),
-            null, 1);
+            null,
+            1
+        );
         if (isset($result[0])) {
             self::$user = $result[0];
         }
 
-        return Auth::isLoggedIn();
+        return self::isLoggedIn();
     }
 
     public static function trySessionLogin()
     {
-        if (Auth::isSessionFieldsSet()) {
-            return Auth::sessionLogin();
+        if (self::isSessionFieldsSet()) {
+            return self::sessionLogin();
         } else {
             return false;
         }
@@ -79,7 +81,7 @@ class Auth
 
     public static function user($key)
     {
-        return Auth::isLoggedIn() ? Auth::$user[$key] : null;
+        return self::isLoggedIn() ? self::$user[$key] : null;
     }
 
     /**

@@ -14,8 +14,8 @@ class Database
         if (!$this->link) {
             die('Could not connect: ' . mysql_error());
         }
-        $db_selected = mysql_select_db($database, $this->link);
-        if (!$db_selected) {
+        $dbSelected = mysql_select_db($database, $this->link);
+        if (!$dbSelected) {
             die ('Can\'t use foo : ' . mysql_error());
         }
         mysql_set_charset('utf8');
@@ -23,7 +23,7 @@ class Database
 
     public function rawQuery($query)
     {
-        $result = mysql_query($query);
+        $result    = mysql_query($query);
         $this->log = array($query, is_bool($result) ? $result : true);
 
         if (!$result) {
