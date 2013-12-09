@@ -82,10 +82,12 @@ class FrontController
 
     public function renderView()
     {
-        foreach ($this->templateVars as $key => $value) {
-            $$key = $value;
+        if (!empty($this->template)) {
+            foreach ($this->templateVars as $key => $value) {
+                $$key = $value;
+            }
+            require_once $this->template;
         }
-        require_once $this->template;
     }
 
     /**
