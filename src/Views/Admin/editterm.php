@@ -3,7 +3,7 @@
     <div class="span10 admin-box">
         <div class="row">
             <div class="span6 offset2">
-                <form class="form-horizontal" action="<?= WEB_ROOT ?>admin/saveterm/<?= $term['id'] ?>" method="post">
+                <form class="form-horizontal" action="<?= WEBSITE_ROOT ?>admin/saveterm/<?= $term['id'] ?>" method="post">
                     <legend>
                         <?php
                         if ($term['id'] !== null) {

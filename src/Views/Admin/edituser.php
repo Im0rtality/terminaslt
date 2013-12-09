@@ -3,7 +3,7 @@
     <div class="span10 admin-box">
         <div class="row">
             <div class="span6 offset2">
-                <form class="form-horizontal" action="<?= WEB_ROOT ?>admin/saveuser/<?= $user['id'] ?>" method="post">
+                <form class="form-horizontal" action="<?= WEBSITE_ROOT ?>admin/saveuser/<?= $user['id'] ?>" method="post">
                     <legend><?php if ($user['id'] !== null): ?>Keisti vartotoją<?php else: ?>Pridėti vartotoją<?php endif; ?></legend>
                     <input type="hidden" name="id" value="<?= $user['id'] ?>">
 

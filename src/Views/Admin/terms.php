@@ -2,7 +2,7 @@
 <div class="row offset1">
     <div class="span10 admin-box">
         <h1>Terminai</h1>
-        <a class="btn" href="<?= WEB_ROOT ?>admin/editterm/0"><i class="icon-pencil"></i> Pridėti terminą</a>
+        <a class="btn" href="<?= WEBSITE_ROOT ?>admin/editterm/0"><i class="icon-pencil"></i> Pridėti terminą</a>
         <table class="table table-condensed table-hover">
             <thead>
             <tr>

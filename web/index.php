@@ -9,7 +9,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 define('WEB_ROOT', __DIR__);
 define('ROOT', dirname(WEB_ROOT));
-define('ASSETS_ROOT', '/assets/');
+define('WEBSITE_ROOT', '/');
+define('ASSETS_ROOT', WEBSITE_ROOT . 'assets/');
 
 function debug($var)
 {

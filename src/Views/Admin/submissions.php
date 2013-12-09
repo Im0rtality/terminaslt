@@ -17,7 +17,7 @@
                     <td><?= $obj['meaning'] ?></td>
                     <td><?= $obj['ip'] ?></td>
                     <td>
-                        <a class="btn btn-mini" href="<?= WEB_ROOT ?>admin/editsubmission/<?= $obj['id'] ?>"> <i
+                        <a class="btn btn-mini" href="<?= WEBSITE_ROOT ?>admin/editsubmission/<?= $obj['id'] ?>"> <i
                                 class="icon-pencil"></i></a>
                         <button class="btn btn-mini btn-danger btn-action" data-action="delete"
                                 data-controller="submission" data-id="<?= $obj['id'] ?>"><i class="icon-trash"></i>

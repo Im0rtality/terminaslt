@@ -14,7 +14,7 @@
                 </blockquote>
             <?php endforeach ?>
             <form class="form-horizontal" id="form-add-comment" style="margin-top:50px" method='POST'
-                  action="<?= WEB_ROOT ?>comment/add/">
+                  action="<?= WEBSITE_ROOT ?>comment/add/">
                 <input type="hidden" name="id" value="<?= $data['id'] ?>">
                 <textarea class="span6" name="comment" placeholder="Komentaras"></textarea>
 
@@ -28,7 +28,7 @@
         <p>Jūsų pasirinktas terminas sistemos duomazėje neegzistuoja. Jei norite prisidėti prie duombazės pildymo galite
             užpildyti šią formą.</p>
         <form class="form-horizontal span4 offset0" id="form-add-term" method='POST'
-              action="<?= WEB_ROOT ?>term/submit/">
+              action="<?= WEBSITE_ROOT ?>term/submit/">
             <legend>Termino pridėjimo užklausa</legend>
             <div class='control-group'>
                 <input class="span4" type="text" name="term" placeholder="Terminas" value="<?= $query ?>">

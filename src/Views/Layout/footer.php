@@ -5,7 +5,7 @@
     <p>Empowered by <a href="jquery.com">jQuery</a>, <a href="twitter.github.com/bootstrap/">Bootstrap</a>, <a
             href="http://raphaeljs.com/">Raphaël</a> and <a href="http://glyphicons.com/">Glyphicons Free</a></p>
     <ul class="footer-links">
-        <li><a href="<?= '/' ?>">Home</a></li>
+        <li><a href="<?= WEBSITE_ROOT ?>">Home</a></li>
         <li class="muted">•</li>
         <?php if (Auth::isLoggedIn()) : ?>
             <li><a href="<?= $this->url('logout') ?>">Logout</a>

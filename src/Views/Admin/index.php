@@ -52,9 +52,9 @@
         </div>
     </div>
 </div>
-<script src="<?= WEB_ROOT; ?>raphael.min.js" type="text/javascript"></script>
-<script src="<?= WEB_ROOT; ?>g.raphael.min.js"></script>
-<script src="<?= WEB_ROOT; ?>g.pie.min.js"></script>
+<script src="<?= WEBSITE_ROOT; ?>raphael.min.js" type="text/javascript"></script>
+<script src="<?= WEBSITE_ROOT; ?>g.raphael.min.js"></script>
+<script src="<?= WEBSITE_ROOT; ?>g.pie.min.js"></script>
 <script>
     var r = Raphael("chart1");
     // r.piechart(354, 87, 85, [

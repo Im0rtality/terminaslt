@@ -10,7 +10,7 @@
         <li><a href="<?= $this->url('admin', 'users') ?>">Vartotojai</a></li>
 
         <li class="nav-header">Kita</li>
-        <li><a href="<?= WEB_ROOT ?>">Pradinis</a></li>
+        <li><a href="<?= WEBSITE_ROOT ?>">Pradinis</a></li>
         <li><a href="<?= $this->url('logout') ?>">Baigti darbą</a></li>
     </ul>
 </div>

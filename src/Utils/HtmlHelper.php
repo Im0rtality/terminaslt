@@ -8,13 +8,15 @@ class HtmlHelper
 
     public function url($controller, $action = "", $params = "")
     {
+        $controller = (string)$controller;
+        $action     = (string)$action;
+        $params     = (string)$params;
+        $template   = $this->modRewrite ? "%s/%s/%s/" : "index.php?controller=%s&action=%s&params=%s";
+        $url        = WEBSITE_ROOT . sprintf($template, $controller, $action, $params);
         if ($this->modRewrite) {
-            return '/' . (empty($controller) ? "" : $controller . '/') . (empty($action) ? "" : $action . '/') .
-            (empty
-            ($params) ? "" : $params . '/');
-        } else {
-            return '/' . "index.php?controller=$controller&action=$action" . (empty($params) ? "" : '/' . $params);
+            $url = rtrim($url, '/') . '/';
         }
+        return $url;
     }
 
     /**
