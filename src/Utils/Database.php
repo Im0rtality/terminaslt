@@ -23,7 +23,7 @@ class Database
 
     public function rawQuery($query)
     {
-        $result    = mysql_query($query);
+        $result = mysql_query($query);
         $this->log = array($query, is_bool($result) ? $result : true);
 
         if (!$result) {
@@ -71,7 +71,14 @@ class Database
         } else {
             $swhere = ' WHERE ' . $where;
         }
-        $query = sprintf('SELECT %s FROM `%s` %s%s%s', $fields, $table, $swhere, ($order !== null) ? ' ORDER BY ' . $order : "", ($limit !== null) ? ' LIMIT ' . $limit : "");
+        $query = sprintf(
+            'SELECT %s FROM `%s` %s%s%s',
+            $fields,
+            $table,
+            $swhere,
+            ($order !== null) ? ' ORDER BY ' . $order : "",
+            ($limit !== null) ? ' LIMIT ' . $limit : ""
+        );
 
         return $this->rawQuery($query);
     }
@@ -98,7 +105,13 @@ class Database
             $swhere = ' WHERE ' . $where;
         }
 
-        $query = sprintf('UPDATE %s SET %s %s%s', $table, $sfields, $swhere, ($limit !== null) ? ' LIMIT ' . $limit : "");
+        $query = sprintf(
+            'UPDATE %s SET %s %s%s',
+            $table,
+            $sfields,
+            $swhere,
+            ($limit !== null) ? ' LIMIT ' . $limit : ""
+        );
 
         // debug($query);
         return $this->rawQuery($query);
@@ -124,5 +137,3 @@ class Database
         mysql_close($this->link);
     }
 }
-
-?>
