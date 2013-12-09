@@ -4,7 +4,14 @@
         <div class="row">
             <div class="span6 offset2">
                 <form class="form-horizontal" action="<?= WEB_ROOT ?>admin/saveterm/<?= $term['id'] ?>" method="post">
-                    <legend><?php if ($term['id'] !== null): ?>Keisti terminą<?php else: ?>Pridėti terminą<?php endif; ?></legend>
+                    <legend>
+                        <?php
+                        if ($term['id'] !== null) {
+                            echo 'Keisti terminą';
+                        } else {
+                            echo 'Pridėti terminą';
+                        } ?>
+                    </legend>
                     <input type="hidden" name="id" value="<?= $term['id'] ?>">
 
                     <div class="control-group">

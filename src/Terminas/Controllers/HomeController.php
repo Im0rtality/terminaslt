@@ -9,9 +9,12 @@ define('CLOUD_ROW', 5);
 
 function sortArray($array, $key)
 {
-    usort($array, function ($a, $b) use ($key) {
-        return ($a[$key] < $b[$key]);
-    });
+    usort(
+        $array,
+        function ($item1, $item2) use ($key) {
+            return ($item1[$key] < $item2[$key]);
+        }
+    );
     $tmp = array();
     for ($i = 0; $i < count($array); $i++) {
         if ($i % 2 == 0) {
@@ -50,9 +53,12 @@ class HomeController extends AbstractController
             );
         }
 
-        array_walk($terms, function (&$item) use ($lim) {
-            $item['scale'] = map_value($item['hits'], $lim['min'], $lim['max'], 100, 250);
-        });
+        array_walk(
+            $terms,
+            function (&$item) use ($lim) {
+                $item['scale'] = map_value($item['hits'], $lim['min'], $lim['max'], 100, 250);
+            }
+        );
 
         $terms = sortArray($terms, 'hits');
 

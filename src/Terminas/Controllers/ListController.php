@@ -6,7 +6,7 @@ use Utils\AbstractController;
 
 class ListController extends AbstractController
 {
-    public function index($query = '', $terms = null)
+    public function index($query = '')
     {
         $data = $this->database->select('terms', array('term'), "term LIKE '%$query%'");
 

@@ -57,9 +57,9 @@ class AdminController extends AbstractController
         );
     }
 
-    public function editterm($id)
+    public function editterm($termId)
     {
-        $data = $this->database->select("terms", array("id", "term", "meaning"), array('id' => (int)$id));
+        $data = $this->database->select("terms", array("id", "term", "meaning"), array('id' => (int)$termId));
         if (($data !== null) && (isset($data[0]))) {
             $data = $data[0];
         } else {
@@ -118,12 +118,12 @@ class AdminController extends AbstractController
         );
     }
 
-    public function editsubmission($id)
+    public function editsubmission($submissionId)
     {
         $data = $this->database->select(
             "submissions",
             array("id", "ip", "term", "meaning", "comment"),
-            array('id' => (int)$id)
+            array('id' => (int)$submissionId)
         );
 
         return array(

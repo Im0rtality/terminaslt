@@ -7,7 +7,7 @@ use Utils\Auth;
 
 class TermController extends AbstractController
 {
-    public function submit($query)
+    public function submit()
     {
         // debug($_POST);
         foreach ($_POST as &$val) {
@@ -50,10 +50,10 @@ class TermController extends AbstractController
         );
     }
 
-    public function delete($id)
+    public function delete($termId)
     {
         if (Auth::hasFlag(Auth::FLAG_ADMIN)) {
-            $this->database->rawQuery("DELETE FROM terms WHERE id=" . ($id + 0));
+            $this->database->rawQuery("DELETE FROM terms WHERE id=" . ($termId + 0));
             echo "OK";
         } else {
             echo 'Error: you dont have rights to perform specified action';

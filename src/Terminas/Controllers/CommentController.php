@@ -23,10 +23,10 @@ class CommentController extends AbstractController
         $this->renderView = false;
     }
 
-    public function delete($id)
+    public function delete($commentId)
     {
         if (Auth::hasFlag(Auth::FLAG_ADMIN)) {
-            $this->database->rawQuery("DELETE FROM comments WHERE id=" . ($id + 0));
+            $this->database->rawQuery("DELETE FROM comments WHERE id=" . ($commentId + 0));
             echo "OK";
         } else {
             echo 'Error: you dont have rights to perform specified action';
