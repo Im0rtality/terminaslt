@@ -21,12 +21,12 @@ class Auth
 
     public static function isLoggedIn()
     {
-        return Auth::$user !== null;
+        return self::$user !== null;
     }
 
     public static function hasFlag($flag)
     {
-        return Auth::$user !== null ? (Auth::$user['flags'] && $flag) != 0 : false;
+        return self::$user !== null ? (self::$user['flags'] && $flag) != 0 : false;
     }
 
     public static function doLogin()
@@ -48,10 +48,13 @@ class Auth
 
     private static function internalLogin($username, $password)
     {
-        $result = self::$database->select('users', array('*'), array('name' => $username, 'password' => $password),
+        $result = self::$database->select(
+            'users',
+            array('*'),
+            array('name' => $username, 'password' => $password),
             null, 1);
         if (isset($result[0])) {
-            Auth::$user = $result[0];
+            self::$user = $result[0];
         }
 
         return Auth::isLoggedIn();
@@ -70,7 +73,7 @@ class Auth
     {
         unset($_SESSION['name']);
         unset($_SESSION['password']);
-        Auth::$user = null;
+        self::$user = null;
         session_destroy();
     }
 
