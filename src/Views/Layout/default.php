@@ -17,12 +17,14 @@
     <div id="footer" class="footer">
         <?php require("footer.php"); ?>
     </div>
-<?php endif ?>
+    <?php
+endif ?>
 <?php if (($controller !== 'admin') && ($controller !== 'home') && ($controller !== '')): ?>
     <a href="<?= ASSETS_ROOT ?>">
         <div class="home-box border-hover"></div>
     </a>
-<?php endif ?>
+    <?php
+endif ?>
 <!-- <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script> -->
 <!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script> -->
 <script src="<?= ASSETS_ROOT; ?>jquery.js" type="text/javascript"></script>
