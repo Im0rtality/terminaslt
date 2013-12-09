@@ -1,5 +1,5 @@
 vendor/
-.vagrant/
+.vagrant/machines/
 .idea/
 
 database.config.php

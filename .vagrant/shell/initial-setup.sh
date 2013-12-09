@@ -1,7 +1,7 @@
 #!/bin/bash
 
-OS=$(/bin/bash /vagrant/shell/os-detect.sh ID)
-CODENAME=$(/bin/bash /vagrant/shell/os-detect.sh CODENAME)
+OS=$(/bin/bash /vagrant/.vagrant/shell/os-detect.sh ID)
+CODENAME=$(/bin/bash /vagrant/.vagrant/shell/os-detect.sh CODENAME)
 
 if [[ ! -d /.puphpet-stuff ]]; then
     cat /vagrant/shell/self-promotion.txt

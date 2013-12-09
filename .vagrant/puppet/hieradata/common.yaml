@@ -23,7 +23,7 @@ vagrantfile-local:
                 manifests_path: puppet/manifests
                 options:
                     - --verbose
-                    - '--hiera_config /vagrant/hiera.yaml'
+                    - '--hiera_config /vagrant/.vagrant/hiera.yaml'
                     - '--parser future'
         synced_folder:
             P8pYfnPFl5NO:

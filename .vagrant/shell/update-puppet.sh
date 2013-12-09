@@ -1,8 +1,8 @@
 #!/bin/bash
 
-OS=$(/bin/bash /vagrant/shell/os-detect.sh ID)
-RELEASE=$(/bin/bash /vagrant/shell/os-detect.sh RELEASE)
-CODENAME=$(/bin/bash /vagrant/shell/os-detect.sh CODENAME)
+OS=$(/bin/bash /vagrant/.vagrant/shell/os-detect.sh ID)
+RELEASE=$(/bin/bash /vagrant/.vagrant/shell/os-detect.sh RELEASE)
+CODENAME=$(/bin/bash /vagrant/.vagrant/shell/os-detect.sh CODENAME)
 
 if [[ ! -f /.puphpet-stuff/update-puppet ]]; then
     if [ "$OS" == 'debian' ] || [ "$OS" == 'ubuntu' ]; then
