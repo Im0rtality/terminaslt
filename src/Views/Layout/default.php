@@ -20,7 +20,7 @@ endif ?>
 <?php
 if (($this->getController() !== 'admin') && ($this->getController() !== 'home') && ($this->getController() !== '')):
     ?>
-    <a href="<?= ASSETS_ROOT ?>">
+    <a href="<?= '/' ?>">
         <div class="home-box border-hover"></div>
     </a>
     <?php
