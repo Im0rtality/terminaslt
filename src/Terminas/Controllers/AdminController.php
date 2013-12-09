@@ -17,8 +17,16 @@ class AdminController extends AbstractController
 
     public function index()
     {
-        $comments    = $this->database->rawQuery("SELECT comments.id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC LIMIT 5");
-        $submissions = $this->database->rawQuery("SELECT submissions.id, submissions.term, submissions.meaning, submissions.comment FROM submissions ORDER BY id DESC LIMIT 5");
+        $comments    = $this->database->rawQuery(
+            "SELECT comments.id, users.name, terms.term, comments.content " .
+            "FROM comments, users, terms " .
+            "WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) " .
+            "ORDER BY comments.id DESC LIMIT 5"
+        );
+        $submissions = $this->database->rawQuery(
+            "SELECT submissions.id, submissions.term, submissions.meaning, submissions.comment " .
+            "FROM submissions ORDER BY id DESC LIMIT 5"
+        );
 
         $terms = $this->database->select('terms', array('term', 'hits'), array(), 'hits DESC', 7);
         $lim   = $this->database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min', 'SUM(hits) as sum'));
@@ -57,6 +65,7 @@ class AdminController extends AbstractController
         } else {
             $data = array("id" => null, "term" => "", "meaning" => "");
         }
+
         return array(
             'term' => $data
         );
@@ -69,7 +78,9 @@ class AdminController extends AbstractController
         if (empty($_POST['id'])) {
             $this->database->insert('terms', array('term', 'meaning'), array($post['term'], $post['meaning']));
         } else {
-            $this->database->rawQuery("UPDATE terms SET term='{$post['term']}', meaning='{$post['meaning']}' WHERE id={$post['id']}");
+            $this->database->rawQuery(
+                "UPDATE terms SET term='{$post['term']}', meaning='{$post['meaning']}' WHERE id={$post['id']}"
+            );
         }
         redirect("admin/terms/");
 
@@ -87,7 +98,11 @@ class AdminController extends AbstractController
 
     public function comments()
     {
-        $data = $this->database->rawQuery("SELECT comments.id, comments.user_id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC");
+        $data = $this->database->rawQuery(
+            "SELECT comments.id, comments.user_id, users.name, terms.term, comments.content " .
+            "FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) " .
+            "ORDER BY comments.id DESC"
+        );
 
         return array(
             'comments' => $data
@@ -105,7 +120,11 @@ class AdminController extends AbstractController
 
     public function editsubmission($id)
     {
-        $data = $this->database->select("submissions", array("id", "ip", "term", "meaning", "comment"), array('id' => (int)$id));
+        $data = $this->database->select(
+            "submissions",
+            array("id", "ip", "term", "meaning", "comment"),
+            array('id' => (int)$id)
+        );
 
         return array(
             'submission' => $data
@@ -122,7 +141,7 @@ class AdminController extends AbstractController
         }
 
         return array(
-            'user' => $data,
+            'user'    => $data,
             'isAdmin' => $data['flags'] && 1 !== 0 ? 'checked' : '',
         );
     }
@@ -140,12 +159,24 @@ class AdminController extends AbstractController
         }
         $post = $this->database->escape($_POST);
         if (empty($_POST['id'])) {
-            $this->database->insert('users', array('name', 'email', 'password', 'flags'), array($post['name'], $post['email'], "SHA1({$post['password']})", $flags));
+            $this->database->insert(
+                'users',
+                array('name', 'email', 'password', 'flags'),
+                array($post['name'], $post['email'], "SHA1({$post['password']})", $flags)
+            );
         } else {
             if (empty($_POST['password'])) {
-                $this->database->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', flags={$flags} WHERE id={$post['id']}");
+                $this->database->rawQuery(
+                    "UPDATE users SET name='{$post['name']}', email='{$post['email']}', flags={$flags} " .
+                    "WHERE id={$post['id']}"
+                );
             } else {
-                $this->database->rawQuery("UPDATE users SET name='{$post['name']}', email='{$post['email']}', password=SHA1('{$post['password']}'), flags={$flags} WHERE id={$post['id']}");
+                $this->database->rawQuery(
+                    "UPDATE users " .
+                    "SET name='{$post['name']}', email='{$post['email']}', password=SHA1('{$post['password']}'), " .
+                    "flags={$flags} " .
+                    "WHERE id={$post['id']}"
+                );
             }
         }
         header("Location: " . WEB_ROOT . "admin/users/");
