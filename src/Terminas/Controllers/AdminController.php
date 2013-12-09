@@ -5,6 +5,13 @@ namespace Terminas\Controllers;
 use Utils\AbstractController;
 use Utils\Auth;
 
+/**
+ * Every method (except constructor of course) represents single action in admin panel.
+ * And we have much clickable things in there. Probably would need to split up links,
+ * but right know there's no support for prefixed routes like /admin/comments/view/22.
+ *
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ */
 class AdminController extends AbstractController
 {
     public function __construct()
