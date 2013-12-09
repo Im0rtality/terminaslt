@@ -31,7 +31,7 @@ before_script:
     - mv web/database.config.travis web/database.config.php
 
 script:
-    - ./vendor/bin/phpcs --standard=PSR2 src/
+    - ./vendor/bin/phpcs --standard=PSR2 --ignore=src/Views src/
     - ./vendor/bin/phpmd src/ text "codesize,design,naming,unusedcode"
     - phpunit
     - ./vendor/bin/behat
