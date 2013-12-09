@@ -126,7 +126,7 @@ class FrontController
     }
 
     /**
-     * @param $ctrl
+     * @param $ctrl AbstractController
      */
     protected function renderTemplate($ctrl)
     {

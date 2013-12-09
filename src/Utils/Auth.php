@@ -7,6 +7,7 @@ class Auth
     const FLAG_ADMIN = 1;
 
     private static $user = null;
+    /** @var $database Database */
     private static $database = null;
 
     public static function isLoginFieldsSet()
