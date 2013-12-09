@@ -31,6 +31,8 @@ class Request
                 return $this->get;
             case "post":
                 return $this->post;
+            default:
+                throw new \Exception("Request does not support field {$name}");
         }
     }
 }
