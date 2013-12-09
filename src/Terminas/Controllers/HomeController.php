@@ -34,7 +34,13 @@ class HomeController extends AbstractController
     public function index()
     {
         $terms = $this->database->select('terms', array('term', 'hits'), array(), 'hits DESC', CLOUD_SIZE);
-        $lim   = $this->database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min'), array(), 'hits DESC', CLOUD_SIZE);
+        $lim   = $this->database->select(
+            'terms',
+            array('MAX(hits) as max', 'MIN(hits) as min'),
+            array(),
+            'hits DESC',
+            CLOUD_SIZE
+        );
         $lim   = $lim[0];
 
         if (count($terms) < CLOUD_SIZE) {

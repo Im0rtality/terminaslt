@@ -31,7 +31,12 @@ class TermController extends AbstractController
         $term = $this->database->select('terms', array('id', 'term', 'meaning'), array('term' => $query));
         if (count($term) > 0) {
             $term[0]['meaning'] = str_replace("\n", "</p><p>", $term[0]['meaning']);
-            $data               = $this->database->rawQuery("SELECT comments.id, users.name, comments.content FROM comments, users WHERE (comments.user_id = users.id) AND (comments.term_id = {$term[0]['id']}) ORDER BY comments.id ASC");
+            $data               = $this->database->rawQuery(
+                "SELECT comments.id, users.name, comments.content " .
+                "FROM comments, users " .
+                "WHERE (comments.user_id = users.id) AND (comments.term_id = {$term[0]['id']}) " .
+                "ORDER BY comments.id ASC"
+            );
             $this->database->update('terms', array('hits'), array('hits + 1'), array('id' => $term[0]['id']));
         } else {
             $data = array();
