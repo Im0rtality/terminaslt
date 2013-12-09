@@ -17,6 +17,8 @@ class FrontController
 
     /** @var  HtmlHelper */
     protected $htmlHelper;
+    /** @var  mixed */
+    protected $templateVars = array();
 
     public function url($controller, $action = "", $params = "")
     {
@@ -57,27 +59,30 @@ class FrontController
 
     public function handleRoute($route)
     {
-        $viewVars = array();
         list($action, $sCtrl, $sClass, $ctrl, $method) = $this->loadController($route);
 
         if (isCallable($ctrl, $method)) {
             // call_user_func(array($ctrl, $method), $action);
             switch (count($action)) {
                 case 0:
-                    $ctrl->$method();
+                    $this->templateVars = $ctrl->$method();
                     break;
                 case 1:
-                    $ctrl->$method($action[0]);
+                    $this->templateVars = $ctrl->$method($action[0]);
                     break;
                 case 2:
-                    $ctrl->$method($action[0], $action[1]);
+                    $this->templateVars = $ctrl->$method($action[0], $action[1]);
                     break;
                 case 3:
-                    $ctrl->$method($action[0], $action[1], $action[2]);
+                    $this->templateVars = $ctrl->$method($action[0], $action[1], $action[2]);
                     break;
                 default:
                     die("Too many parameters for {$sClass}->{$method}()");
                     break;
+            }
+
+            if ($this->templateVars === null) {
+                $this->templateVars = array();
             }
 
             /** @var $ctrl AbstractController */
@@ -93,8 +98,7 @@ class FrontController
 
     public function renderView()
     {
-        global $sView, $viewVars;
-        foreach ($viewVars as $key => $value) {
+        foreach ($this->templateVars as $key => $value) {
             $$key = $value;
         }
         require_once $this->template;

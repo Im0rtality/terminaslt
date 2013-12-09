@@ -23,6 +23,6 @@ class ListController extends AbstractController
         $data = count($val) > 1 ? $val : array_pop($val);
 
         $this->renderDefault = false;
-        setViewVar('data', $data);
+        return array('data' => $data);
     }
 }

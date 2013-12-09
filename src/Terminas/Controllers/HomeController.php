@@ -61,6 +61,8 @@ class HomeController extends AbstractController
             }
         }
 
-        setViewVar('termCloud', $termCloud);
+        return array(
+            'termCloud' => $termCloud
+        );
     }
 }

@@ -24,8 +24,6 @@ class AdminController extends AbstractController
         $lim   = $this->database->select('terms', array('MAX(hits) as max', 'MIN(hits) as min', 'SUM(hits) as sum'));
         $lim   = $lim[0];
 
-        setViewVar('comments', $comments);
-        setViewVar('submissions', $submissions);
         $termCloud = array();
         $sum       = 0;
         foreach ($terms as $term) {
@@ -33,15 +31,22 @@ class AdminController extends AbstractController
             $sum += $term['hits'];
         }
         $termCloud['kiti'] = round($sum / $lim['sum'] * 100, 0);
-        setViewVar('termCloudHits', implode(',', array_values($termCloud)));
-        setViewVar('termCloudTerms', '"%%.% ' . implode('","%%.% ', array_keys($termCloud)) . '"');
+
+        return array(
+            'comments'       => $comments,
+            'submissions'    => $submissions,
+            'termCloudHits'  => implode(',', array_values($termCloud)),
+            'termCloudTerms' => '"%%.% ' . implode('","%%.% ', array_keys($termCloud)) . '"'
+        );
     }
 
     public function terms()
     {
         $data = $this->database->select('terms', array('id', 'term', 'meaning'), array(), 'term ASC');
 
-        setViewVar('terms', $data);
+        return array(
+            'terms' => $data
+        );
     }
 
     public function editterm($id)
@@ -52,7 +57,9 @@ class AdminController extends AbstractController
         } else {
             $data = array("id" => null, "term" => "", "meaning" => "");
         }
-        setViewVar('term', $data);
+        return array(
+            'term' => $data
+        );
     }
 
     public function saveterm()
@@ -73,28 +80,36 @@ class AdminController extends AbstractController
     {
         $data = $this->database->select('users', array('id', 'name', 'email', '(flags && 1 != 0) as isAdmin'));
 
-        setViewVar('users', $data);
+        return array(
+            'users' => $data
+        );
     }
 
     public function comments()
     {
         $data = $this->database->rawQuery("SELECT comments.id, comments.user_id, users.name, terms.term, comments.content FROM comments, users, terms WHERE (comments.user_id = users.id) AND (comments.term_id = terms.id) ORDER BY comments.id DESC");
 
-        setViewVar('comments', $data);
+        return array(
+            'comments' => $data
+        );
     }
 
     public function submissions()
     {
         $data = $this->database->select("submissions", array("id", "ip", "term", "meaning", "comment"));
 
-        setViewVar('submissions', $data);
+        return array(
+            'submissions' => $data
+        );
     }
 
     public function editsubmission($id)
     {
         $data = $this->database->select("submissions", array("id", "ip", "term", "meaning", "comment"), array('id' => (int)$id));
 
-        setViewVar('submission', $data[0]);
+        return array(
+            'submission' => $data
+        );
     }
 
     public function edituser($query)
@@ -106,8 +121,10 @@ class AdminController extends AbstractController
             $data = array('id' => null, 'name' => null, 'email' => null, 'flags' => 0);
         }
 
-        setViewVar('user', $data);
-        setViewVar('isAdmin', $data['flags'] && 1 !== 0 ? 'checked' : '');
+        return array(
+            'user' => $data,
+            'isAdmin' => $data['flags'] && 1 !== 0 ? 'checked' : '',
+        );
     }
 
     public function saveuser()
