@@ -6,35 +6,36 @@ class Auth
 {
     const FLAG_ADMIN = 1;
 
-    private static $user = null;
+    private $user = null;
     /** @var $database Database */
-    private static $database = null;
+    private $database = null;
+    private static $instance = null;
 
-    public static function isLoginFieldsSet()
+    public function isLoginFieldsSet()
     {
         return isset($_REQUEST['name']) && isset($_REQUEST['pass']);
     }
 
-    public static function isSessionFieldsSet()
+    public function isSessionFieldsSet()
     {
         return isset($_SESSION['name']) && isset($_SESSION['pass']);
     }
 
-    public static function isLoggedIn()
+    public function isLoggedIn()
     {
-        return self::$user !== null;
+        return $this->user !== null;
     }
 
-    public static function hasFlag($flag)
+    public function hasFlag($flag)
     {
-        return self::$user !== null ? (self::$user['flags'] && $flag) != 0 : false;
+        return ($this->user !== null) ? ($this->user['flags'] && $flag) != 0 : false;
     }
 
-    public static function doLogin()
+    public function doLogin()
     {
-        if (self::internalLogin($_REQUEST['name'], sha1($_REQUEST['pass']))) {
-            $_SESSION['name'] = self::$user['name'];
-            $_SESSION['pass'] = self::$user['password'];
+        if ($this->internalLogin($_REQUEST['name'], sha1($_REQUEST['pass']))) {
+            $_SESSION['name'] = $this->user['name'];
+            $_SESSION['pass'] = $this->user['password'];
 
             return true;
         } else {
@@ -42,14 +43,14 @@ class Auth
         }
     }
 
-    public static function sessionLogin()
+    public function sessionLogin()
     {
-        return self::internalLogin($_SESSION['name'], $_SESSION['pass']);
+        return $this->internalLogin($_SESSION['name'], $_SESSION['pass']);
     }
 
-    private static function internalLogin($username, $password)
+    private function internalLogin($username, $password)
     {
-        $result = self::$database->select(
+        $result = $this->database->select(
             'users',
             array('*'),
             array('name' => $username, 'password' => $password),
@@ -57,39 +58,50 @@ class Auth
             1
         );
         if (isset($result[0])) {
-            self::$user = $result[0];
+            $this->user = $result[0];
         }
 
-        return self::isLoggedIn();
+        return $this->isLoggedIn();
     }
 
-    public static function trySessionLogin()
+    public function trySessionLogin()
     {
-        if (self::isSessionFieldsSet()) {
-            return self::sessionLogin();
+        if ($this->isSessionFieldsSet()) {
+            return $this->sessionLogin();
         } else {
             return false;
         }
     }
 
-    public static function doLogout()
+    public function doLogout()
     {
         unset($_SESSION['name']);
         unset($_SESSION['password']);
-        self::$user = null;
+        $this->user = null;
         session_destroy();
     }
 
-    public static function user($key)
+    public function user($key)
     {
-        return self::isLoggedIn() ? self::$user[$key] : null;
+        return self::isLoggedIn() ? $this->user[$key] : null;
     }
 
     /**
      * @param null $database
      */
-    public static function setDatabase($database)
+    public function setDatabase($database)
     {
-        self::$database = $database;
+        $this->database = $database;
+    }
+
+    /**
+     * @return Auth
+     */
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new Auth();
+        }
+        return self::$instance;
     }
 }

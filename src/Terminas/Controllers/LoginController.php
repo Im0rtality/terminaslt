@@ -9,8 +9,8 @@ class LoginController extends AbstractController
 {
     public function index()
     {
-        if (Auth::isLoginFieldsSet() === true) {
-            if (Auth::doLogin() === true) {
+        if (Auth::getInstance()->isLoginFieldsSet() === true) {
+            if (Auth::getInstance()->doLogin() === true) {
                 redirect("");
             } else {
                 // render "error invalid login"

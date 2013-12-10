@@ -6,7 +6,7 @@
         <div class="term-meaning">
             <p><?= $data['meaning'] ?></p>
         </div>
-        <?php if (Auth::isLoggedIn()) : ?>
+        <?php if (Auth::getInstance()->isLoggedIn()) : ?>
             <?php foreach ($comments as $obj) : ?>
                 <blockquote>
                     <p><?= $obj['content'] ?></p>
@@ -15,7 +15,7 @@
             <?php endforeach ?>
             <form class="form-horizontal" id="form-add-comment" style="margin-top:50px" method='POST'
                   action="<?= $this->url('comment', 'add') ?>">
-                <input type=" hidden" name="id" value="<?= $data['id'] ?>">
+                <input type="hidden" name="id" value="<?= $data['id'] ?>">
                 <textarea class="span6" name="comment" placeholder="Komentaras"></textarea>
 
                 <div class="pull-right" style="margin-top:10px">

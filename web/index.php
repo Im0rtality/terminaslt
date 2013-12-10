@@ -67,6 +67,6 @@ $front = new FrontController(true, $request);
 $front->setHtmlHelper($helper);
 $front->initDatabase('database.config.php');
 session_start();
-Auth::trySessionLogin();
+Auth::getInstance()->trySessionLogin();
 $front->handleRoute($_GET);
 $front->renderView();

@@ -51,7 +51,7 @@ class TermController extends AbstractController
 
     public function delete($termId)
     {
-        if (Auth::hasFlag(Auth::FLAG_ADMIN)) {
+        if (Auth::getInstance()->hasFlag(Auth::FLAG_ADMIN)) {
             $this->database->rawQuery("DELETE FROM terms WHERE id=" . ($termId + 0));
             echo "OK";
         } else {

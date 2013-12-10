@@ -9,7 +9,7 @@ class SubmissionController extends AbstractController
 {
     public function delete($submissionId)
     {
-        if (Auth::hasFlag(Auth::FLAG_ADMIN)) {
+        if (Auth::getInstance()->hasFlag(Auth::FLAG_ADMIN)) {
             $this->database->rawQuery("DELETE FROM submissions WHERE id=" . ($submissionId + 0));
             echo "OK";
         } else {

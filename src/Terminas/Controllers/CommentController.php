@@ -9,7 +9,7 @@ class CommentController extends AbstractController
 {
     public function add()
     {
-        if (Auth::isLoggedIn()) {
+        if (Auth::getInstance()->isLoggedIn()) {
             if (trim($this->request->post['comment']) === '') {
                 echo 'Error: comment is empty';
             } else {
@@ -17,7 +17,7 @@ class CommentController extends AbstractController
                     'comments',
                     array('user_id', 'term_id', 'content'),
                     array(
-                        Auth::user('id'),
+                        Auth::getInstance()->user('id'),
                         $this->request->post['id'],
                         htmlentities($this->request->post['comment'])
                     )
@@ -32,7 +32,7 @@ class CommentController extends AbstractController
 
     public function delete($commentId)
     {
-        if (Auth::hasFlag(Auth::FLAG_ADMIN)) {
+        if (Auth::getInstance()->hasFlag(Auth::FLAG_ADMIN)) {
             $this->database->rawQuery("DELETE FROM comments WHERE id=" . ($commentId + 0));
             echo "OK";
         } else {

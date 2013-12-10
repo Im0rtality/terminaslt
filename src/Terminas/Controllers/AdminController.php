@@ -17,7 +17,7 @@ class AdminController extends AbstractController
     public function __construct()
     {
         call_user_func_array(array(self, '__construct'), func_get_args());
-        if (!Auth::hasFlag(Auth::FLAG_ADMIN)) {
+        if (!Auth::getInstance()->hasFlag(Auth::FLAG_ADMIN)) {
             redirect("login/");
         }
     }

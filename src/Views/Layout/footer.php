@@ -7,11 +7,11 @@
     <ul class="footer-links">
         <li><a href="<?= $this->url('') ?>">Home</a></li>
         <li class="muted">•</li>
-        <?php if (Auth::isLoggedIn()) : ?>
+        <?php if (Auth::getInstance()->isLoggedIn()) : ?>
             <li><a href="<?= $this->url('logout') ?>">Logout</a>
-                <small class="muted">(<span id="user-name"><?= Auth::user('name') ?></span>)</small>
+                <small class="muted">(<span id="user-name"><?= Auth::getInstance()->user('name') ?></span>)</small>
             </li>
-            <?php if (Auth::hasFlag(Auth::FLAG_ADMIN)) : ?>
+            <?php if (Auth::getInstance()->hasFlag(Auth::FLAG_ADMIN)) : ?>
                 <li class="muted">•</li>
                 <li><a href="<?= $this->url('admin') ?>">Admin</a></li>
             <?php endif; ?>

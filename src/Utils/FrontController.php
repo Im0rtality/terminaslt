@@ -46,7 +46,7 @@ class FrontController
     {
         require_once $config;
         $this->database = new Database('localhost', DB_USER, DB_PASSWORD, DB_NAME);
-        Auth::setDatabase($this->database);
+        Auth::getInstance()->setDatabase($this->database);
     }
 
     /**

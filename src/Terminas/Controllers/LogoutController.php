@@ -9,7 +9,7 @@ class LogoutController extends AbstractController
 {
     public function index()
     {
-        Auth::doLogout();
+        Auth::getInstance()->doLogout();
         redirect("");
     }
 }
