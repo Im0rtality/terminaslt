@@ -72,8 +72,7 @@ class HtmlHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testUrl($modRewrite, $root, $controller, $action, $params, $expected)
     {
-        $helper = new HtmlHelper();
-        $helper->setModRewrite($modRewrite);
+        $helper = new HtmlHelper($modRewrite);
         $helper->setRoot($root);
         $this->assertEquals($expected, $helper->url($controller, $action, $params));
     }

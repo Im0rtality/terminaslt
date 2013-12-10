@@ -2,38 +2,30 @@
 
 namespace Utils;
 
+use Utils\Routing\ModRewriteStrategy;
+use Utils\Routing\QueryStringStrategy;
+use Utils\Routing\RoutingHelper;
+
 class HtmlHelper
 {
-    protected $modRewrite = true;
     protected $root;
+    /** @var RoutingHelper */
+    protected $helper;
+
+    public function __construct($modRewrite)
+    {
+        $this->helper = new RoutingHelper($modRewrite ? new ModRewriteStrategy() : new QueryStringStrategy());
+    }
 
     public function url($controller, $action = "", $params = "")
     {
-        $controller = (string)$controller;
-        $action     = (string)$action;
-        $params     = (string)$params;
-        $template   = $this->modRewrite ? "%s/%s/%s/" : "index.php?controller=%s&action=%s&params=%s";
-        $url        = $this->root . sprintf($template, $controller, $action, $params);
-        if ($this->modRewrite) {
-            $url = rtrim($url, '/') . '/';
-        }
-        return $url;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isModRewrite()
-    {
-        return $this->modRewrite;
-    }
-
-    /**
-     * @param boolean $modRewrite
-     */
-    public function setModRewrite($modRewrite)
-    {
-        $this->modRewrite = $modRewrite;
+        return $this->root . $this->helper->executeStrategy(
+            array(
+                'controller' => $controller,
+                'action'     => $action,
+                'params'     => $params,
+            )
+        );
     }
 
     /**

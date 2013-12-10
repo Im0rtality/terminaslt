@@ -55,7 +55,6 @@ class FrontController
     public function setHtmlHelper($htmlHelper)
     {
         $this->htmlHelper = $htmlHelper;
-        $this->htmlHelper->setModRewrite($this->modRewrite);
     }
 
     /**
