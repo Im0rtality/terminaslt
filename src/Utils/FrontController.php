@@ -6,8 +6,8 @@ namespace Utils;
 
 class FrontController
 {
+    /** @var  Database */
     protected $database;
-    protected $modRewrite = true;
     /** @var  string */
     protected $controller;
     /** @var  string */
@@ -33,10 +33,10 @@ class FrontController
         return $this->htmlHelper->url($controller, $action, $params);
     }
 
-    public function __construct($modRewrite, $request)
+    public function __construct(Request $request, HtmlHelper $htmlHelper)
     {
-        $this->modRewrite = $modRewrite;
         $this->request    = $request;
+        $this->htmlHelper = $htmlHelper;
     }
 
     /**
@@ -49,22 +49,6 @@ class FrontController
         Auth::getInstance()->setDatabase($this->database);
     }
 
-    /**
-     * @param HtmlHelper $htmlHelper
-     */
-    public function setHtmlHelper($htmlHelper)
-    {
-        $this->htmlHelper = $htmlHelper;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isModRewrite()
-    {
-        return $this->modRewrite;
-    }
-
     public function handleRoute($route)
     {
         $ctrl = $this->loadController($route);
@@ -74,9 +58,7 @@ class FrontController
         if (isCallable($ctrl, $this->method)) {
             $this->templateVars = call_user_func_array(array($ctrl, $this->method), $this->action);
 
-            if ($this->templateVars === null) {
-                $this->templateVars = array();
-            }
+            $this->templateVars = $this->templateVars === null ? array() : $this->templateVars;
 
             /** @var $ctrl AbstractController */
             if ($ctrl->isRenderView()) {

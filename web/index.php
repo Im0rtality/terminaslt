@@ -60,12 +60,12 @@ function redirect($url)
 
 $request = new Request();
 
-$helper = new HtmlHelper();
+$helper = new HtmlHelper(true);
 $helper->setRoot(WEBSITE_ROOT);
 
-$front = new FrontController(true, $request);
-$front->setHtmlHelper($helper);
+$front = new FrontController($request, $helper);
 $front->initDatabase('database.config.php');
+
 session_start();
 Auth::getInstance()->trySessionLogin();
 $front->handleRoute($_GET);
