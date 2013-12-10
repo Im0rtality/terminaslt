@@ -13,7 +13,8 @@ class QueryStringStrategy implements RoutingStrategyInterface
     public function execute($route)
     {
         return sprintf(
-            'index.php?controller=%s&action=%s&params=%s',
+            '%s/index.php?controller=%s&action=%s&params=%s',
+            $route['root'],
             $route['controller'],
             $route['action'],
             $route['params']

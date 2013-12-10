@@ -12,6 +12,13 @@ class ModRewriteStrategy implements RoutingStrategyInterface
      */
     public function execute($route)
     {
-        return rtrim(sprintf("%s/%s/%s", $route['controller'], $route['action'], $route['params']), '/') . '/';
+        $route = sprintf(
+            "%s%s/%s/%s",
+            $route['root'],
+            $route['controller'],
+            $route['action'],
+            $route['params']
+        );
+        return rtrim($route, '/') . '/';
     }
 }

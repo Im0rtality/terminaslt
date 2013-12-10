@@ -19,8 +19,9 @@ class HtmlHelper
 
     public function url($controller, $action = "", $params = "")
     {
-        return $this->root . $this->helper->executeStrategy(
+        return $this->helper->executeStrategy(
             array(
+                'root'       => $this->root,
                 'controller' => $controller,
                 'action'     => $action,
                 'params'     => $params,
