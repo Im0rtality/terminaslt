@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Utils\Routing;
-
 
 class QueryStringStrategy implements RoutingStrategyInterface
 {
